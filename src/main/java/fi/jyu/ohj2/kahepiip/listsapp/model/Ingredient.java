@@ -2,14 +2,16 @@ package fi.jyu.ohj2.kahepiip.listsapp.model;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 /**
  * An object on a recipe -list.
  */
-public class Ingredient extends Item {
+public class Ingredient extends SheetItem {
 
-    private DoubleProperty amount = super.amountProperty();
-    private ObjectProperty<Unit> unit = super.unitProperty();
+    private DoubleProperty amount = new SimpleDoubleProperty();
+    private ObjectProperty<Unit> unit = new SimpleObjectProperty<>(Unit.NULL);
 
     /**
      * An ingredient in a recipe
@@ -23,8 +25,8 @@ public class Ingredient extends Item {
      * @param isBought Status of this ingredient
      */
     public Ingredient(String ingredientName, boolean isBought) {
-        this.setItemName(ingredientName);
-        this.setCompletion(isBought);
+        super(ingredientName, isBought);
+        listener(this.getItems());
     }
 
     public void setAmount(double amount) {this.amount.set(amount);}
