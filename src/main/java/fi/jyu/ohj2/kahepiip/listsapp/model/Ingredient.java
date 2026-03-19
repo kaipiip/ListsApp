@@ -6,7 +6,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 /**
- * An object on a recipe -list.
+ * An ingredient which can be added/saved to a recipe. Ingredient's name, completion,
+ * amount and unit variables are being listened to.
  */
 public class Ingredient extends SheetItem {
 
@@ -22,7 +23,7 @@ public class Ingredient extends SheetItem {
     /**
      *  An ingredient in a recipe
      * @param ingredientName Name of this ingredient
-     * @param isBought Status of this ingredient
+     * @param isBought Boolean status of this ingredient
      */
     public Ingredient(String ingredientName, boolean isBought) {
         super(ingredientName, isBought);

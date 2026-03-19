@@ -20,9 +20,16 @@ public class Sheet extends Library implements LibraryInterface{
     private StringProperty sheetTitle = new SimpleStringProperty();
     private ObservableList<ObList> items = observeTitleAndCompletion();
 
+    /**
+     * Observable List for sheet items. Item title and completion value are being listened to.
+     */
     public Sheet(){
     }
 
+    /**
+     * Observable List for sheet items. Item title and completion value are being listened to.
+     * @param title Sheet title
+     */
     public Sheet(String title){
         this.setTitle(title);
         listener(items);

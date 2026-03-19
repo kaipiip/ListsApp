@@ -10,13 +10,13 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
- * An item which can be added/saved to a shopping list
- * and of which completion status is being listened to. Item amount and
- * unit of measure are disregarded.
+ * An item which can be added/saved to a sheet.
+ * Item's name and completion status is being listened to.
  */
 public class SheetItem extends Sheet {
 
     private BooleanProperty completion = new SimpleBooleanProperty(false);
+
     /**
      * An item on a sheet.
      */
@@ -25,7 +25,7 @@ public class SheetItem extends Sheet {
     /**
      * An item on a sheet
      * @param itemName Name of this item
-     * @param completion Status of this item
+     * @param completion Boolean status of this item
      */
     public SheetItem(String itemName, boolean completion){
         super(itemName);

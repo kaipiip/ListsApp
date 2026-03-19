@@ -13,8 +13,15 @@ public class Library extends ObList implements LibraryInterface {
     private boolean recipe = false;
     private ObservableList<ObList> library = observeTitleAndCompletion();
 
+    /**
+     * Library(Observable List) of recipes or sheets that's titles are being listened to.
+     */
     public Library(){}
 
+    /**
+     * Library(Observable List) of recipes or sheets that are being listened to.
+     * @param header Library name
+     */
     public Library(String header){
         this.header = header;
         listener(library);
@@ -48,6 +55,9 @@ public class Library extends ObList implements LibraryInterface {
         this.getItems().remove(member);
     }
 
+    /**
+     * Sets specified list's boolean variable recipe as true.
+     */
     public void setAsRecipe(){
         this.recipe = true;
     }
