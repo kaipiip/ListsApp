@@ -21,29 +21,22 @@ public abstract class ObList {
     private ObservableList<ObList> list;
 
     /**
-     * Get observable list variables.
-     * @return This observable list.
-     */
-    public ObservableList<ObList> getItems(){return this.list;}
-
-    /**
      * Creates observable list for two observable variables.
      * @return Observable list for title and completion properties.
      */
-    public ObservableList<ObList> observeTitleAndCompletion(){
+    public void observeTitleAndCompletion(){
         list = FXCollections.observableArrayList(
                 item -> new Observable[]{
                         item.titleProperty(),
                         item.completionProperty()
                 });
-        return list;
     }
 
     /**
      * Creates observable list for all four observable variables.
      * @return Observable list for title, completion, amount and unit properties.
      */
-    public ObservableList<ObList> observeAll(){
+    public void observeAll(){
         list = FXCollections.observableArrayList(
                 item -> new Observable[]{
                         item.titleProperty(),
@@ -51,6 +44,5 @@ public abstract class ObList {
                         item.amountProperty(),
                         item.unitProperty()
                 });
-        return list;
     }
 }

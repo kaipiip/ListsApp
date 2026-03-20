@@ -1,22 +1,10 @@
 package fi.jyu.ohj2.kahepiip.listsapp.model;
 
-/*
-Class for future development of the application.
-
-Sovelluksen jatkokehitystä, eli yksittäistä tuotetta varten yksinkertaisempi luokka.
- */
-
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-
 /**
  * An item which can be added/saved to a sheet.
  * Item's name and completion status is being listened to.
  */
-public class SheetItem extends Sheet {
-
-    private BooleanProperty completion = new SimpleBooleanProperty(false);
-
+public class SheetItem extends ListItem {
     /**
      * An item on a sheet.
      */
@@ -25,13 +13,8 @@ public class SheetItem extends Sheet {
     /**
      * An item on a sheet
      * @param itemName Name of this item
-     * @param completion Boolean status of this item
      */
-    public SheetItem(String itemName, boolean completion){
+    public SheetItem(String itemName){
         super(itemName);
-        this.setCompletion(completion);
     }
-
-    public void setCompletion(boolean completion) {this.completion.set(completion);}
-    public boolean getCompletion() {return this.completion.get();}
 }

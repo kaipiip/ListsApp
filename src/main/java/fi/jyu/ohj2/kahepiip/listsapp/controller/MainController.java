@@ -1,19 +1,16 @@
 package fi.jyu.ohj2.kahepiip.listsapp.controller;
 
+import fi.jyu.ohj2.kahepiip.listsapp.model.Sheet;
 import fi.jyu.ohj2.kahepiip.listsapp.model.SheetItem;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -52,6 +49,12 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleAddItemBtn(ActionEvent event){
+        String item = itemTxt.getText();
+
+        if(item == null || item.isBlank()){
+            itemTxt.clear();
+            return;
+        }
     }
 
     @FXML
@@ -84,6 +87,16 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
+        TableColumn<SheetItem, Boolean> completedColumn = new TableColumn<>("Check box");
+        completedColumn.setCellValueFactory(cd -> cd.getValue().completionProperty());
+        completedColumn.setCellFactory(CheckBoxTableCell.forTableColumn(completedColumn));
+        itemTable.getColumns().add(completedColumn);
+
+        TableColumn<SheetItem, String> itemName = new TableColumn<>("Item");
+        itemName.setCellValueFactory(cd -> cd.getValue().titleProperty());
+        itemTable.getColumns().add(itemName);
 
     }
 }
