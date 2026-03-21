@@ -1,6 +1,6 @@
 package fi.jyu.ohj2.kahepiip.listsapp.controller;
 
-import fi.jyu.ohj2.kahepiip.listsapp.model.Ingredient;
+import fi.jyu.ohj2.kahepiip.listsapp.model.ListItem;
 import fi.jyu.ohj2.kahepiip.listsapp.model.Recipe;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,14 +17,14 @@ public class RecipeViewController implements Initializable {
 
     @FXML
     private void handleArrangeCombo(ActionEvent event){
-
+        IO.println("Arrange recipes");
     }
 
     @FXML
     private TreeView<Recipe> recipeTree;
 
     @FXML
-    private CheckBoxTreeItem<Ingredient> cbTree;
+    private CheckBoxTreeItem<ListItem> cbTree;
 
     @FXML
     private TextField searchTxt;
@@ -46,27 +46,27 @@ public class RecipeViewController implements Initializable {
 
     @FXML
     private void handleSearchBtn(ActionEvent event){
-
+        IO.println("Search for a recipe");
     }
 
     @FXML
     private void handleNewRecipeBtn(ActionEvent event){
-
+        IO.println("Create a new recipe");
     }
 
     @FXML
     private void handleRemoveBtn(ActionEvent event){
-
+        IO.println("Remove recipe");
     }
 
     @FXML
     private void handleEditBtn(ActionEvent event){
-
+        IO.println("Edit recipe");
     }
 
     @FXML
     private void handleReturnBtn(ActionEvent event){
-
+        IO.println("return to main view");
     }
 
     @Override

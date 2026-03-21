@@ -1,7 +1,6 @@
 package fi.jyu.ohj2.kahepiip.listsapp.controller;
 
-import fi.jyu.ohj2.kahepiip.listsapp.model.Sheet;
-import fi.jyu.ohj2.kahepiip.listsapp.model.SheetItem;
+import fi.jyu.ohj2.kahepiip.listsapp.model.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,7 +41,7 @@ public class MainController implements Initializable {
     private Button saveBtn;
 
     @FXML
-    private TableView<SheetItem> itemTable;
+    private TableView<ListItem> itemTable;
 
     @FXML
     private CheckBox cb;
@@ -55,18 +54,23 @@ public class MainController implements Initializable {
             itemTxt.clear();
             return;
         }
+        shoppingList.addItem(item);
+        itemTxt.clear();
     }
 
     @FXML
     private void handleEmptyBtn(ActionEvent event){
+        IO.println("Trying to remove.");
     }
 
     @FXML
     private void handleRecipesBtn(ActionEvent event) {
+        IO.println("Go to Recipe View.");
     }
 
     @FXML
     private void handleNewRecipeBtn(ActionEvent event) {
+        IO.println("Create a new recipe.");
 
     }
 
@@ -84,19 +88,23 @@ public class MainController implements Initializable {
     private void handleSaveBtn(ActionEvent event){
     }
 
+    ItemCollection shoppingList = new ItemCollection();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        itemTable.setItems(shoppingList.getItems());
+        itemTable.setEditable(true);
 
-        TableColumn<SheetItem, Boolean> completedColumn = new TableColumn<>("Check box");
+        TableColumn<ListItem, Boolean> completedColumn = new TableColumn<>("Check box");
         completedColumn.setCellValueFactory(cd -> cd.getValue().completionProperty());
         completedColumn.setCellFactory(CheckBoxTableCell.forTableColumn(completedColumn));
         itemTable.getColumns().add(completedColumn);
 
-        TableColumn<SheetItem, String> itemName = new TableColumn<>("Item");
-        itemName.setCellValueFactory(cd -> cd.getValue().titleProperty());
-        itemTable.getColumns().add(itemName);
+
+        TableColumn<ListItem, String> itemNameColumn = new TableColumn<>("Item");
+        itemNameColumn.setCellValueFactory(cd -> cd.getValue().titleProperty());
+        itemTable.getColumns().add(itemNameColumn);
 
     }
 }
