@@ -80,7 +80,7 @@ public class MainController implements Initializable {
     @FXML
     private void handleNewRecipeBtn(ActionEvent event) throws Exception{
         IO.println("Create a new recipe.");
-        Parent recipeView = FXMLLoader.load(getClass().getResource("newRecipeView.fxml"));
+        Parent recipeView = FXMLLoader.load(App.class.getResource("newRecipeView.fxml"));
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.setRoot(recipeView);
 

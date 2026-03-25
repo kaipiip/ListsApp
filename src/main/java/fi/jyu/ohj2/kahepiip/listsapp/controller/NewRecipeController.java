@@ -4,9 +4,6 @@ import fi.jyu.ohj2.kahepiip.listsapp.App;
 import fi.jyu.ohj2.kahepiip.listsapp.model.ListItem;
 import fi.jyu.ohj2.kahepiip.listsapp.model.Recipe;
 import fi.jyu.ohj2.kahepiip.listsapp.model.Unit;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class NewRecipeController implements Initializable {
@@ -41,13 +37,13 @@ public class NewRecipeController implements Initializable {
     private TableView<ListItem> newRecipeTable;
 
     @FXML
-    private TableColumn<ListItem, DoubleProperty> amountColumn;
+    private final TableColumn<ListItem, Double> amountColumn = new TableColumn<>("Amount");
 
     @FXML
-    private TableColumn<ListItem, ObjectProperty<Unit>> unitColumn;
+    private final TableColumn<ListItem, Unit> unitColumn = new TableColumn<>("Unit");
 
     @FXML
-    private TableColumn<ListItem, StringProperty> nameColumn;
+    private final TableColumn<ListItem, String> nameColumn = new TableColumn<>("Ingredient");
 
     @FXML
     private Button addIngredientBtn;
@@ -67,8 +63,9 @@ public class NewRecipeController implements Initializable {
     }
 
     @FXML
-    private void handleSaveAndAddBtn(ActionEvent event){
+    private void handleSaveAndAddBtn(ActionEvent event) throws Exception{
         IO.println("Save and move to today's shopping list");
+        returnToMainView(event);
     }
 
     @FXML
@@ -79,9 +76,7 @@ public class NewRecipeController implements Initializable {
     @FXML
     private void handleReturnBtn(ActionEvent event) throws Exception{
         IO.println("Return to main view");
-        Parent mainView = FXMLLoader.load(App.class.getResource("main.fxml"));
-        Scene currentScene = ((Node) event.getSource()).getScene();
-        currentScene.setRoot(mainView);
+        returnToMainView(event);
     }
 
     @FXML
@@ -99,5 +94,21 @@ public class NewRecipeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        newRecipeTable.setItems(recipe.getItems());
+
+        nameColumn.setCellValueFactory(cd -> cd.getValue().titleProperty());
+        newRecipeTable.getColumns().add(nameColumn);
+
+        amountColumn.setCellValueFactory(cd -> cd.getValue().amountProperty().asObject());
+        newRecipeTable.getColumns().add(amountColumn);
+
+        unitColumn.setCellValueFactory(cd -> cd.getValue().unitProperty());
+        newRecipeTable.getColumns().add(unitColumn);
+    }
+
+    public void returnToMainView(ActionEvent event) throws Exception{
+        Parent mainView = FXMLLoader.load(App.class.getResource("main.fxml"));
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        currentScene.setRoot(mainView);
     }
 }
