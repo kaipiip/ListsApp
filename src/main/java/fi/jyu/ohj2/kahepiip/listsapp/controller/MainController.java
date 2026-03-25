@@ -1,16 +1,22 @@
 package fi.jyu.ohj2.kahepiip.listsapp.controller;
 
+import fi.jyu.ohj2.kahepiip.listsapp.App;
 import fi.jyu.ohj2.kahepiip.listsapp.model.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
 
 public class MainController implements Initializable {
     @FXML
@@ -64,13 +70,19 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void handleRecipesBtn(ActionEvent event) {
+    private void handleRecipesBtn(ActionEvent event) throws Exception {
         IO.println("Go to Recipe View.");
+        Parent recipeView = FXMLLoader.load(App.class.getResource("recipeView.fxml"));
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        currentScene.setRoot(recipeView);
     }
 
     @FXML
-    private void handleNewRecipeBtn(ActionEvent event) {
+    private void handleNewRecipeBtn(ActionEvent event) throws Exception{
         IO.println("Create a new recipe.");
+        Parent recipeView = FXMLLoader.load(getClass().getResource("newRecipeView.fxml"));
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        currentScene.setRoot(recipeView);
 
     }
 

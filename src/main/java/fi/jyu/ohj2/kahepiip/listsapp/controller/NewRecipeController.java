@@ -1,13 +1,19 @@
 package fi.jyu.ohj2.kahepiip.listsapp.controller;
 
+import fi.jyu.ohj2.kahepiip.listsapp.App;
 import fi.jyu.ohj2.kahepiip.listsapp.model.ListItem;
+import fi.jyu.ohj2.kahepiip.listsapp.model.Recipe;
 import fi.jyu.ohj2.kahepiip.listsapp.model.Unit;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.net.URL;
@@ -71,8 +77,11 @@ public class NewRecipeController implements Initializable {
     }
 
     @FXML
-    private void handleReturnBtn(ActionEvent event){
+    private void handleReturnBtn(ActionEvent event) throws Exception{
         IO.println("Return to main view");
+        Parent mainView = FXMLLoader.load(App.class.getResource("main.fxml"));
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        currentScene.setRoot(mainView);
     }
 
     @FXML
@@ -84,6 +93,8 @@ public class NewRecipeController implements Initializable {
     private void handleUnitCombo(ActionEvent event){
         IO.println("Choose unit of measure for ingredient");
     }
+
+    Recipe recipe = new Recipe();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
