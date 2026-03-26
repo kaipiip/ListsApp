@@ -55,4 +55,12 @@ public class ListItem {
 
     public boolean isIngredient() {return ingredient;}
     public void setIngredient(boolean ingredient){this.ingredient = ingredient;}
+
+    /**
+     * Converts Ingredients to Item -format.
+     * @return
+     */
+    public ListItem ingredientToItem(){
+        return new ListItem(getAmount() + " " + getUnit().toString().toLowerCase() + " " + getTitle());
+    }
 }

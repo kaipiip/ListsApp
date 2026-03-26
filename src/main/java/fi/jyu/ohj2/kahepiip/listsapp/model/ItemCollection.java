@@ -1,6 +1,10 @@
 package fi.jyu.ohj2.kahepiip.listsapp.model;
 
 import javafx.beans.Observable;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -9,22 +13,26 @@ import javafx.collections.ObservableList;
  * Observable list for ListItems
  */
 public class ItemCollection implements Collections {
+
     private ObservableList<ListItem> items = FXCollections.observableArrayList(
             item -> new Observable[]{
                     item.titleProperty(),
                     item.completionProperty()
             });
 
+
     public ItemCollection(){
-        items.addListener((ListChangeListener<ListItem>) change -> {
-        // save();
-        });
+            items.addListener((ListChangeListener<ListItem>) change -> {
+                // save();
+            });
     }
 
     @Override
     public ObservableList<ListItem> getItems() {return this.items;}
     @Override
     public void addItem(String title) {items.add(new ListItem(title.trim()));}
+    @Override
+    public void addItem(ListItem item) {items.add(item);}
 
     @Override
     public void removeItem(ListItem item) {

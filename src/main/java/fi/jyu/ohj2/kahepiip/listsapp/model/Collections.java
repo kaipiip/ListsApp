@@ -6,9 +6,25 @@ import java.awt.*;
 import java.util.List;
 
 public interface Collections {
-    void save();
+
+    /**
+     * Creates and adds item to collection.
+     * @param title item title
+     */
     void addItem(String title);
+
+    /**
+     * Adds specified item to collection
+     * @param item item to be added to collection.
+     */
+    void addItem(ListItem item);
+
+    /**
+     * Removes specified item  from collection.
+     * @param item item to be removed from collection
+     */
     void removeItem(ListItem item);
+    void save();
     void load();
     ObservableList<ListItem> getItems();
 

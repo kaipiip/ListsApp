@@ -1,9 +1,9 @@
 package fi.jyu.ohj2.kahepiip.listsapp.controller;
 
 import fi.jyu.ohj2.kahepiip.listsapp.App;
-import fi.jyu.ohj2.kahepiip.listsapp.model.ListItem;
-import fi.jyu.ohj2.kahepiip.listsapp.model.Recipe;
-import fi.jyu.ohj2.kahepiip.listsapp.model.Unit;
+import fi.jyu.ohj2.kahepiip.listsapp.model.*;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,17 +60,41 @@ public class NewRecipeController implements Initializable {
     @FXML
     private void handleSaveBtn(ActionEvent event){
         IO.println("Save Recipe");
+        addRecipe();
     }
 
     @FXML
     private void handleSaveAndAddBtn(ActionEvent event) throws Exception{
         IO.println("Save and move to today's shopping list");
+        addRecipe();
         returnToMainView(event);
     }
 
     @FXML
     private void handleAddIngredientBtn(ActionEvent event){
-        IO.println("Add new Ingredient");
+        IO.println("Adding new Ingredient");
+        Platform.runLater(ingredientTxt::requestFocus);
+        String ingredientName = ingredientTxt.getText();
+        double amount;
+
+        try{
+            amount = Double.parseDouble(amountTxt.getText());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if(ingredientName == null || ingredientName.isBlank()){
+            ingredientTxt.clear();
+            return;
+        }
+
+        ListItem ingredient = new ListItem(ingredientName, true);
+        ingredient.setAmount(amount);
+        ingredient.setUnit(unitCombo.getValue());
+
+        recipe.addItem(ingredient);
+        ingredientTxt.clear();
+        amountTxt.clear();
     }
 
     @FXML
@@ -90,25 +114,38 @@ public class NewRecipeController implements Initializable {
     }
 
     Recipe recipe = new Recipe();
+    RecipeLibrary recipeCollection = new RecipeLibrary();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        recipeNameTxt.requestFocus();
         newRecipeTable.setItems(recipe.getItems());
 
-        nameColumn.setCellValueFactory(cd -> cd.getValue().titleProperty());
-        newRecipeTable.getColumns().add(nameColumn);
-
         amountColumn.setCellValueFactory(cd -> cd.getValue().amountProperty().asObject());
-        newRecipeTable.getColumns().add(amountColumn);
-
         unitColumn.setCellValueFactory(cd -> cd.getValue().unitProperty());
-        newRecipeTable.getColumns().add(unitColumn);
+        nameColumn.setCellValueFactory(cd -> cd.getValue().titleProperty());
+        newRecipeTable.getColumns().addAll(amountColumn, unitColumn, nameColumn);
+
+        unitCombo.setItems(FXCollections.observableArrayList(Unit.values()));
+        unitCombo.setValue(Unit.NULL);
     }
 
     public void returnToMainView(ActionEvent event) throws Exception{
         Parent mainView = FXMLLoader.load(App.class.getResource("main.fxml"));
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.setRoot(mainView);
+    }
+
+    public void addRecipe(){
+        String recipeName = recipeNameTxt.getText();
+        if(recipeName == null || recipeName.isBlank()){
+            recipeNameTxt.clear();
+            return;
+        }
+        recipe.setRecipeName(recipeName);
+        recipeCollection.addRecipe(recipe);
+        recipeNameTxt.clear();
+        newRecipeTable.getItems().removeAll(recipe.getItems());
+        // Lisää tallennus!
     }
 }

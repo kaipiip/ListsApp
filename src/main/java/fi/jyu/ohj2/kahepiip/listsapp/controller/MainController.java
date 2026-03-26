@@ -2,7 +2,7 @@ package fi.jyu.ohj2.kahepiip.listsapp.controller;
 
 import fi.jyu.ohj2.kahepiip.listsapp.App;
 import fi.jyu.ohj2.kahepiip.listsapp.model.*;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,11 +14,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 
 public class MainController implements Initializable {
+
     @FXML
     private TextField itemTxt;
 
@@ -54,18 +54,17 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleAddItemBtn(ActionEvent event){
-        String item = itemTxt.getText();
+        addItemOnList();
+    }
 
-        if(item == null || item.isBlank()){
-            itemTxt.clear();
-            return;
-        }
-        shoppingList.addItem(item);
-        itemTxt.clear();
+    @FXML
+    private void handleItemTxt(ActionEvent event){
+        addItemOnList();
     }
 
     @FXML
     private void handleEmptyBtn(ActionEvent event){
+        itemTable.getItems().removeAll(shoppingList.getItems());
         IO.println("Trying to remove.");
     }
 
@@ -111,12 +110,25 @@ public class MainController implements Initializable {
         TableColumn<ListItem, Boolean> completedColumn = new TableColumn<>("Check box");
         completedColumn.setCellValueFactory(cd -> cd.getValue().completionProperty());
         completedColumn.setCellFactory(CheckBoxTableCell.forTableColumn(completedColumn));
-        itemTable.getColumns().add(completedColumn);
-
 
         TableColumn<ListItem, String> itemNameColumn = new TableColumn<>("Item");
         itemNameColumn.setCellValueFactory(cd -> cd.getValue().titleProperty());
-        itemTable.getColumns().add(itemNameColumn);
+        itemTable.getColumns().addAll(completedColumn, itemNameColumn);
 
+    }
+
+    /**
+     * Action event handler for adding item on Today's shopping list.
+     */
+    private void addItemOnList(){
+        Platform.runLater(itemTxt::requestFocus);
+        String item = itemTxt.getText();
+
+        if(item == null || item.isBlank()){
+            itemTxt.clear();
+            return;
+        }
+        shoppingList.addItem(item);
+        itemTxt.clear();
     }
 }
