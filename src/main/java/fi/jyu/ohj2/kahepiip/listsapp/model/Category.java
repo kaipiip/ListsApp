@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Category {
-    private final StringProperty categoryName = new SimpleStringProperty();
+    private StringProperty categoryName = new SimpleStringProperty("Uncategorized");
 
     public Category(){
     }

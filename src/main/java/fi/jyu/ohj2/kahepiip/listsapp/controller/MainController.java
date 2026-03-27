@@ -50,9 +50,6 @@ public class MainController implements Initializable {
     private TableView<ListItem> itemTable;
 
     @FXML
-    private CheckBox cb;
-
-    @FXML
     private void handleAddItemBtn(ActionEvent event){
         addItemOnList();
     }
@@ -99,11 +96,10 @@ public class MainController implements Initializable {
     private void handleSaveBtn(ActionEvent event){
     }
 
-    ItemCollection shoppingList = new ItemCollection();
+    private ItemCollection shoppingList = new ItemCollection();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         itemTable.setItems(shoppingList.getItems());
         itemTable.setEditable(true);
 
@@ -114,6 +110,8 @@ public class MainController implements Initializable {
         TableColumn<ListItem, String> itemNameColumn = new TableColumn<>("Item");
         itemNameColumn.setCellValueFactory(cd -> cd.getValue().titleProperty());
         itemTable.getColumns().addAll(completedColumn, itemNameColumn);
+
+        shoppingList.load();
 
     }
 

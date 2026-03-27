@@ -58,7 +58,7 @@ public class ListItem {
 
     /**
      * Converts Ingredients to Item -format.
-     * @return
+     * @return ListItem with ingredient amount, unit and name as title.
      */
     public ListItem ingredientToItem(){
         return new ListItem(getAmount() + " " + getUnit().toString().toLowerCase() + " " + getTitle());

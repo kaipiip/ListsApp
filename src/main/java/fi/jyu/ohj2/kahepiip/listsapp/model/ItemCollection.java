@@ -1,18 +1,23 @@
 package fi.jyu.ohj2.kahepiip.listsapp.model;
 
 import javafx.beans.Observable;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 
 /**
  * Observable list for ListItems
  */
 public class ItemCollection implements Collections {
+    private final Path path = Path.of("itemCollection.json");
+    private final ObjectMapper mapper = new ObjectMapper();
 
     private ObservableList<ListItem> items = FXCollections.observableArrayList(
             item -> new Observable[]{
@@ -23,7 +28,7 @@ public class ItemCollection implements Collections {
 
     public ItemCollection(){
             items.addListener((ListChangeListener<ListItem>) change -> {
-                // save();
+                save();
             });
     }
 
@@ -43,8 +48,20 @@ public class ItemCollection implements Collections {
     }
 
     @Override
-    public void save() {}
+    public void save() {
+        mapper.writeValue(path, items);
+    }
 
     @Override
-    public void load() {}
+    public void load() {
+        if(Files.notExists(path)){
+            return;
+        }
+        try {
+            List<ListItem> allItems = mapper.readValue(path, new TypeReference<>() {});
+            items.addAll(allItems);
+        }catch (JacksonException e){
+            IO.println("Failed to read JSON-file: " + e.getMessage());
+        }
+    }
 }
