@@ -28,7 +28,7 @@ public class NewRecipeController implements Initializable {
     private TextField amountTxt;
 
     @FXML
-    private ComboBox<String> categoryCombo;
+    private ComboBox<Category> categoryCombo;
 
     @FXML
     private ComboBox<Unit> unitCombo;
@@ -60,13 +60,13 @@ public class NewRecipeController implements Initializable {
     @FXML
     private void handleSaveBtn(ActionEvent event){
         IO.println("Save Recipe");
-        addRecipe();
+        newRecipe();
     }
 
     @FXML
     private void handleSaveAndAddBtn(ActionEvent event) throws Exception{
         IO.println("Save and move to today's shopping list");
-        addRecipe();
+        newRecipe();
         returnToMainView(event);
     }
 
@@ -75,26 +75,26 @@ public class NewRecipeController implements Initializable {
         IO.println("Adding new Ingredient");
         Platform.runLater(ingredientTxt::requestFocus);
         String ingredientName = ingredientTxt.getText();
+        ListItem ingredient = new ListItem(ingredientName, true);
         double amount;
 
         try{
             amount = Double.parseDouble(amountTxt.getText());
+            ingredient.setAmount(amount);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            IO.println("Give amount as integer or decimal: " + e.getMessage());
         }
 
         if(ingredientName == null || ingredientName.isBlank()){
             ingredientTxt.clear();
             return;
         }
-
-        ListItem ingredient = new ListItem(ingredientName, true);
-        ingredient.setAmount(amount);
         ingredient.setUnit(unitCombo.getValue());
 
-        recipe.addItem(ingredient);
         ingredientTxt.clear();
         amountTxt.clear();
+
+        recipe.addItem(ingredient);
     }
 
     @FXML
@@ -114,10 +114,11 @@ public class NewRecipeController implements Initializable {
     }
 
     Recipe recipe = new Recipe();
-    RecipeLibrary recipeCollection = new RecipeLibrary();
+    RecipeLibrary recipeLibrary = new RecipeLibrary();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        recipeLibrary.loadRecipes();
         recipeNameTxt.requestFocus();
         newRecipeTable.setItems(recipe.getItems());
 
@@ -128,6 +129,8 @@ public class NewRecipeController implements Initializable {
 
         unitCombo.setItems(FXCollections.observableArrayList(Unit.values()));
         unitCombo.setValue(Unit.NULL);
+        categoryCombo.setItems(FXCollections.observableArrayList(Category.values()));
+        categoryCombo.setValue(Category.UNCATEGORIZED);
     }
 
     public void returnToMainView(ActionEvent event) throws Exception{
@@ -136,16 +139,22 @@ public class NewRecipeController implements Initializable {
         currentScene.setRoot(mainView);
     }
 
-    public void addRecipe(){
+    public void newRecipe(){
+        Recipe newRecipe = new Recipe();
         String recipeName = recipeNameTxt.getText();
+
         if(recipeName == null || recipeName.isBlank()){
             recipeNameTxt.clear();
             return;
         }
-        recipe.setRecipeName(recipeName);
-        recipeCollection.addRecipe(recipe);
+        newRecipe.setRecipeName(recipeName);
+        newRecipe.setCategory(categoryCombo.getValue());
+
+        newRecipe.setItems(recipe.getItems());
+
+        recipeLibrary.addRecipe(newRecipe);
+
         recipeNameTxt.clear();
-        newRecipeTable.getItems().removeAll(recipe.getItems());
-        // Lisää tallennus!
+        newRecipeTable.getItems().clear();
     }
 }

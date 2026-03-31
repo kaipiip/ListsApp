@@ -1,5 +1,6 @@
-itemCollection.json
-recipeLibrary.json
+shopping-list.json
+ingredient-list.json
+recipe-library.json
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

@@ -18,30 +18,24 @@ import java.util.List;
  * Observable list for Recipes
  */
 public class RecipeLibrary {
-    private final Path path = Path.of("recipeLibrary.json");
+    private final Path library = Path.of("recipe-library.json");
     private final ObjectMapper mapper = new ObjectMapper();
-
-    private ObjectProperty<Recipe> recipe = new SimpleObjectProperty<>();
 
     private ObservableList<Recipe> recipes = FXCollections.observableArrayList(
             recipe -> new Observable[]{
                     recipe.recipeNameProperty(),
-                    recipe.categoryProperty(),
-                    recipe.ingredientProperty()
-            });
+                    recipe.categoryProperty()
+            }
+    );
 
     public RecipeLibrary(){
         recipes.addListener((ListChangeListener<Recipe>) change -> {
-            // save ();
+            saveRecipes();
         });
     }
 
-    public void setRecipe(Recipe recipe){this.recipe.set(recipe);}
-    public Recipe getRecipe(){return this.recipe.get();}
-    public ObjectProperty<Recipe> recipeObjectProperty(){return this.recipe;}
-
     public ObservableList<Recipe> getRecipes() {return this.recipes;}
-    public void setRecipes(ObservableList<Recipe> recipes) {this.recipes = recipes;}
+    public void setRecipes(ObservableList<Recipe> recipes) {this.recipes.setAll(recipes);}
 
     public void addRecipe(Recipe recipe){recipes.add(recipe);}
     public void removeRecipe(Recipe recipe){
@@ -52,16 +46,13 @@ public class RecipeLibrary {
     }
 
     public void saveRecipes(){
-        mapper.writeValue(path, recipes);
+        mapper.writeValue(library, recipes);
     }
 
     public void loadRecipes() {
-        if(Files.notExists(path)){
-            return;
-        }
         try {
-            List<Recipe> allRecipes = mapper.readValue(path, new TypeReference<>() {});
-            recipes.addAll(allRecipes);
+            Recipe[] r = mapper.readValue(library.toFile(), Recipe[].class);
+            recipes.setAll(r);
         }catch (JacksonException e){
             IO.println("Failed to read JSON-file: " + e.getMessage());
         }

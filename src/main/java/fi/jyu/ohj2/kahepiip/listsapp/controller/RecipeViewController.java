@@ -3,6 +3,7 @@ package fi.jyu.ohj2.kahepiip.listsapp.controller;
 import fi.jyu.ohj2.kahepiip.listsapp.App;
 import fi.jyu.ohj2.kahepiip.listsapp.model.ListItem;
 import fi.jyu.ohj2.kahepiip.listsapp.model.Recipe;
+import fi.jyu.ohj2.kahepiip.listsapp.model.RecipeLibrary;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -76,13 +77,14 @@ public class RecipeViewController implements Initializable {
     private void handleReturnBtn(ActionEvent event) throws Exception{
         IO.println("return to main view");
         Parent mainView = FXMLLoader.load(App.class.getResource("main.fxml"));
-        // NullPointerException
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.setRoot(mainView);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        RecipeLibrary n = new RecipeLibrary();
+        n.loadRecipes();
 
     }
 }

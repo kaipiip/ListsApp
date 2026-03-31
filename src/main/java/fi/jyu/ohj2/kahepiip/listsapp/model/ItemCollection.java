@@ -16,7 +16,7 @@ import java.util.List;
  * Observable list for ListItems
  */
 public class ItemCollection implements Collections {
-    private final Path path = Path.of("itemCollection.json");
+    private final Path path = Path.of("shopping-list.json");
     private final ObjectMapper mapper = new ObjectMapper();
 
     private ObservableList<ListItem> items = FXCollections.observableArrayList(
@@ -34,6 +34,9 @@ public class ItemCollection implements Collections {
 
     @Override
     public ObservableList<ListItem> getItems() {return this.items;}
+    @Override
+    public void setItems(ObservableList<ListItem> items){this.items.setAll(items);}
+
     @Override
     public void addItem(String title) {items.add(new ListItem(title.trim()));}
     @Override
@@ -58,8 +61,8 @@ public class ItemCollection implements Collections {
             return;
         }
         try {
-            List<ListItem> allItems = mapper.readValue(path, new TypeReference<>() {});
-            items.addAll(allItems);
+            ListItem[] allItems = mapper.readValue(path.toFile(), ListItem[].class);
+            items.setAll(allItems);
         }catch (JacksonException e){
             IO.println("Failed to read JSON-file: " + e.getMessage());
         }

@@ -27,5 +27,7 @@ public interface Collections {
     void save();
     void load();
     ObservableList<ListItem> getItems();
+    void setItems(ObservableList<ListItem> items);
+
 
 }

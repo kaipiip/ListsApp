@@ -11,7 +11,7 @@ public class ListItem {
     private BooleanProperty completion = new SimpleBooleanProperty(false);
 
     private boolean ingredient = false;
-
+    // Following properties apply only to items which have ingredient value true.
     private DoubleProperty amount = new SimpleDoubleProperty();
     private ObjectProperty<Unit> unit = new SimpleObjectProperty<>(Unit.NULL);
 
