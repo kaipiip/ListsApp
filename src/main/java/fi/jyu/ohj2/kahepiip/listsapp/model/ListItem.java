@@ -57,10 +57,11 @@ public class ListItem {
     public void setIngredient(boolean ingredient){this.ingredient = ingredient;}
 
     /**
-     * Converts Ingredients to Item -format.
-     * @return ListItem with ingredient amount, unit and name as title.
+     * Object variables to String.
+     * @return ListItem's amount, unit and name as String.
      */
-    public ListItem ingredientToItem(){
-        return new ListItem(getAmount() + " " + getUnit().toString().toLowerCase() + " " + getTitle());
+    @Override
+    public String toString() {
+        return (getAmount() + " " + getUnit().toString().toLowerCase() + " " + getTitle());
     }
 }

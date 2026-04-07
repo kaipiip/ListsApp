@@ -12,8 +12,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import tools.jackson.databind.ObjectMapper;
 
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 public class NewRecipeController implements Initializable {
@@ -63,10 +65,19 @@ public class NewRecipeController implements Initializable {
         newRecipe();
     }
 
+    /**
+     * Save recipe and move items to today's shopping list
+     * @param event SaveAndAddBtn
+     * @throws Exception exception
+     */
     @FXML
     private void handleSaveAndAddBtn(ActionEvent event) throws Exception{
-        IO.println("Save and move to today's shopping list");
-        newRecipe();
+        Recipe conveyList = new Recipe();
+        conveyList.load();
+        conveyList.getItems()
+                .forEach(item ->
+                        shoppingList.addItem(item.toString()));
+
         returnToMainView(event);
     }
 
@@ -113,14 +124,17 @@ public class NewRecipeController implements Initializable {
         IO.println("Choose unit of measure for ingredient");
     }
 
+    FXMLLoader loader = new FXMLLoader(App.class.getResource("main.fxml"));
     Recipe recipe = new Recipe();
     RecipeLibrary recipeLibrary = new RecipeLibrary();
+    ItemCollection shoppingList = new ItemCollection();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         recipeLibrary.loadRecipes();
         recipeNameTxt.requestFocus();
         newRecipeTable.setItems(recipe.getItems());
+        shoppingList.load();
 
         amountColumn.setCellValueFactory(cd -> cd.getValue().amountProperty().asObject());
         unitColumn.setCellValueFactory(cd -> cd.getValue().unitProperty());
@@ -134,7 +148,7 @@ public class NewRecipeController implements Initializable {
     }
 
     public void returnToMainView(ActionEvent event) throws Exception{
-        Parent mainView = FXMLLoader.load(App.class.getResource("main.fxml"));
+        Parent mainView = loader.load();
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.setRoot(mainView);
     }

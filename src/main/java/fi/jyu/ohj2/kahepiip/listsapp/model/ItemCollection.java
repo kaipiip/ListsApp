@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import tools.jackson.core.JacksonException;
-import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
 import java.nio.file.Files;
@@ -35,7 +34,7 @@ public class ItemCollection implements Collections {
     @Override
     public ObservableList<ListItem> getItems() {return this.items;}
     @Override
-    public void setItems(ObservableList<ListItem> items){this.items.setAll(items);}
+    public void setItems(List<ListItem> items){this.items.setAll(items);}
 
     @Override
     public void addItem(String title) {items.add(new ListItem(title.trim()));}

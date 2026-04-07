@@ -1,16 +1,12 @@
 package fi.jyu.ohj2.kahepiip.listsapp.model;
 
 import javafx.beans.Observable;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import tools.jackson.core.JacksonException;
-import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -35,7 +31,7 @@ public class RecipeLibrary {
     }
 
     public ObservableList<Recipe> getRecipes() {return this.recipes;}
-    public void setRecipes(ObservableList<Recipe> recipes) {this.recipes.setAll(recipes);}
+    public void setRecipes(List<Recipe> recipes) {this.recipes.setAll(recipes);}
 
     public void addRecipe(Recipe recipe){recipes.add(recipe);}
     public void removeRecipe(Recipe recipe){
@@ -45,9 +41,7 @@ public class RecipeLibrary {
         recipes.remove(recipe);
     }
 
-    public void saveRecipes(){
-        mapper.writeValue(library, recipes);
-    }
+    public void saveRecipes(){mapper.writeValue(library, recipes);}
 
     public void loadRecipes() {
         try {
