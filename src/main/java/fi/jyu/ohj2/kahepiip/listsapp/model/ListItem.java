@@ -3,24 +3,41 @@ package fi.jyu.ohj2.kahepiip.listsapp.model;
 import javafx.beans.property.*;
 
 /**
- * An item which can be added/saved to a list. Item's name and completion
- * variables are being listened to.
+ * ListItem-object with title, completion, amount and unit-properties.
  */
 public class ListItem {
+    /**
+     * ListItem-object's title.
+     */
     private StringProperty title = new SimpleStringProperty();
+    /**
+     * ListItem-object's completion status.
+     */
     private BooleanProperty completion = new SimpleBooleanProperty(false);
 
+    /**
+     * ListItem-objects status as ingredient or item.
+     * False = item.
+     * True = ingredient.
+     */
     private boolean ingredient = false;
     // Following properties apply only to items which have ingredient value true.
+
+    /**
+     * Ingredient's amount.
+     */
     private DoubleProperty amount = new SimpleDoubleProperty();
+
+    /**
+     * Ingredients unit of measure.
+     */
     private ObjectProperty<Unit> unit = new SimpleObjectProperty<>(Unit.NULL);
 
     public ListItem(){
     }
 
     /**
-     * An observable item on a list.
-     *
+     * New ListItem
      * @param title item title
      */
     public ListItem(String title){
@@ -28,7 +45,7 @@ public class ListItem {
     }
 
     /**
-     * An observable item on a recipe
+     * New ListItem with specification for ingredient status.
      * @param title item title
      * @param ingredient is/isn't an ingredient
      */
@@ -53,7 +70,16 @@ public class ListItem {
     public Unit getUnit() {return this.unit.get();}
     public ObjectProperty<Unit> unitProperty(){return this.unit;}
 
+    /**
+     *
+     * @return boolean value of item's ingredient status.
+     */
     public boolean isIngredient() {return ingredient;}
+
+    /**
+     * Sets ListItem's ingredient status
+     * @param ingredient ListItem is/isn't an ingredient
+     */
     public void setIngredient(boolean ingredient){this.ingredient = ingredient;}
 
     /**

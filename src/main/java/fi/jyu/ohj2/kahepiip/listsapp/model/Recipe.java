@@ -14,7 +14,7 @@ import java.util.List;
 
 
 /**
- * Recipe -object. Recipe contains it's name, category and a list of ingredients.
+ * Recipe -object. Recipe contains it's name, category and an ObservableList of ingredients.
  */
 public class Recipe implements Collections {
     private final Path ingredientPath = Path.of("ingredient-list.json");
@@ -43,6 +43,7 @@ public class Recipe implements Collections {
 
     /**
      * new Recipe-object which contains listener for ingredient's properties.
+     * Changes are saved.
      */
     public Recipe(){
         ingredients.addListener((ListChangeListener<ListItem>) change -> {
@@ -72,15 +73,27 @@ public class Recipe implements Collections {
     @Override
     public void setItems(List<ListItem> items){this.ingredients.setAll(items);}
 
+    /**
+     * Creates and adds new ingredient to Recipe.
+     * @param title ingredient name
+     */
     @Override
     public void addItem(String title) {
         ingredients.add(new ListItem(title.trim(), true));}
 
+    /**
+     * Adds existing ListItem to Recipe as an ingredient.
+     * @param ingredient ingredient which is added to this Recipe.
+     */
     @Override
     public void addItem(ListItem ingredient) {
         ingredient.setIngredient(true);
         ingredients.add(ingredient);}
 
+    /**
+     * Removes ListItem from Recipe.
+     * @param item ingredient to be removed from Recipe
+     */
     @Override
     public void removeItem(ListItem item) {
         if (item == null){
@@ -89,11 +102,18 @@ public class Recipe implements Collections {
         ingredients.remove(item);
     }
 
+    /**
+     * Saves ingredients to JSON-file: ingredient-list.json
+     */
     @Override
     public void save() {
         mapper.writeValue(ingredientPath, ingredients);
     }
 
+    /**
+     * Reads JSON-file 'ingredient-list.json' and sets items to this Recipe-object's
+     * ObservableList.
+     */
     @Override
     public void load() {
         if(Files.notExists(ingredientPath)){

@@ -59,9 +59,12 @@ public class NewRecipeController implements Initializable {
     @FXML
     private Button returnBtn;
 
+    /**
+     * Save created Recipe to RecipeLibrary and clear TableView and textFields
+     * @param event saveBtn
+     */
     @FXML
     private void handleSaveBtn(ActionEvent event){
-        IO.println("Save Recipe");
         newRecipe();
     }
 
@@ -81,9 +84,13 @@ public class NewRecipeController implements Initializable {
         returnToMainView(event);
     }
 
+    /**
+     * Creates new ListItem as ingredient to Recipe with input from
+     * TextFields and ComboBox if successful. Clears TextFields.
+     * @param event addIngredientBtn
+     */
     @FXML
     private void handleAddIngredientBtn(ActionEvent event){
-        IO.println("Adding new Ingredient");
         Platform.runLater(ingredientTxt::requestFocus);
         String ingredientName = ingredientTxt.getText();
         ListItem ingredient = new ListItem(ingredientName, true);
@@ -108,20 +115,14 @@ public class NewRecipeController implements Initializable {
         recipe.addItem(ingredient);
     }
 
+    /**
+     * Change scene to main.fxml
+     * @param event returnBtn
+     * @throws Exception exception
+     */
     @FXML
     private void handleReturnBtn(ActionEvent event) throws Exception{
-        IO.println("Return to main view");
         returnToMainView(event);
-    }
-
-    @FXML
-    private void handleCategoryCombo(ActionEvent event){
-        IO.println("Choose a category for recipe");
-    }
-
-    @FXML
-    private void handleUnitCombo(ActionEvent event){
-        IO.println("Choose unit of measure for ingredient");
     }
 
     FXMLLoader loader = new FXMLLoader(App.class.getResource("main.fxml"));
@@ -147,12 +148,21 @@ public class NewRecipeController implements Initializable {
         categoryCombo.setValue(Category.UNCATEGORIZED);
     }
 
+    /**
+     * Change scene to main.fxml
+     * @param event event Button
+     * @throws Exception exception
+     */
     public void returnToMainView(ActionEvent event) throws Exception{
         Parent mainView = loader.load();
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.setRoot(mainView);
     }
 
+    /**
+     * Creates and saves new Recipe from current TableView ListItems,
+     * TextField (recipe name) and comboBox(category).
+     */
     public void newRecipe(){
         Recipe newRecipe = new Recipe();
         String recipeName = recipeNameTxt.getText();

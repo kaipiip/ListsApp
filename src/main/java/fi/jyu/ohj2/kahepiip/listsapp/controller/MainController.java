@@ -59,12 +59,20 @@ public class MainController implements Initializable {
         addItemOnList();
     }
 
+    /**
+     * Clears TableView and ItemCollection
+     * @param event emptyBtn
+     */
     @FXML
     private void handleEmptyBtn(ActionEvent event){
         itemTable.getItems().removeAll(shoppingList.getItems());
-        IO.println("Trying to remove.");
     }
 
+    /**
+     * Change scene to recipeView.fxml
+     * @param event recipesBtn
+     * @throws Exception exception
+     */
     @FXML
     private void handleRecipesBtn(ActionEvent event) throws Exception {
         IO.println("Go to Recipe View.");
@@ -73,6 +81,11 @@ public class MainController implements Initializable {
         currentScene.setRoot(recipeView);
     }
 
+    /**
+     * Change scene to newRecipeView.fxml
+     * @param event newRecipeBtn
+     * @throws Exception exception
+     */
     @FXML
     private void handleNewRecipeBtn(ActionEvent event) throws Exception{
         IO.println("Create a new recipe.");
@@ -96,6 +109,9 @@ public class MainController implements Initializable {
     private void handleSaveBtn(ActionEvent event){
     }
 
+    /**
+     * ItemCollection of ListItems for TableView
+     */
     private ItemCollection shoppingList = new ItemCollection();
 
     @Override
@@ -116,7 +132,8 @@ public class MainController implements Initializable {
     }
 
     /**
-     * Action event handler for adding item on Today's shopping list.
+     * Creates new ListItem to Today's shopping list (ItemCollection) from TextField input.
+     * If TextField is null or blank, no new ListItems are created.
      */
     private void addItemOnList(){
         Platform.runLater(itemTxt::requestFocus);
