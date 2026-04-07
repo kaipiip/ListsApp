@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTreeCell;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,10 +28,7 @@ public class RecipeViewController implements Initializable {
     }
 
     @FXML
-    private TreeView<Recipe> recipeTree;
-
-    @FXML
-    private CheckBoxTreeItem<ListItem> cbTree;
+    private TreeView<String> recipeTree;
 
     @FXML
     private TextField searchTxt;
@@ -81,10 +79,26 @@ public class RecipeViewController implements Initializable {
         currentScene.setRoot(mainView);
     }
 
+    RecipeLibrary recipeLibrary = new RecipeLibrary();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        RecipeLibrary n = new RecipeLibrary();
-        n.loadRecipes();
+        recipeLibrary.loadRecipes();
+        TreeItem<String> library = new TreeItem<>("Recipes");
 
+        recipeTree.setCellFactory(CheckBoxTreeCell.<String>forTreeView());
+        for (Recipe r : recipeLibrary.getRecipes()){
+            CheckBoxTreeItem<String> cbTree = new CheckBoxTreeItem<>(r.getRecipeName());
+            library.getChildren().add(cbTree);
+
+            for(ListItem ingredient : r.getItems()){
+                CheckBoxTreeItem<String> cbLeaf = new CheckBoxTreeItem<>(ingredient.toString());
+                cbTree.getChildren().add(cbLeaf);
+            }
+        }
+
+        recipeTree.setRoot(library);
+        recipeTree.setShowRoot(false);
+        recipeTree.setEditable(true);
     }
 }
