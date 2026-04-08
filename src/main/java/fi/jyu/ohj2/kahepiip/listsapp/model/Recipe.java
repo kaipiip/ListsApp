@@ -59,6 +59,11 @@ public class Recipe implements Collections {
     public Category getCategory(){return category.get();}
     public ObjectProperty<Category> categoryProperty(){return category;}
 
+    @Override
+    public String toString(){
+        return getRecipeName();
+    }
+
     /**
      *
      * @return Ingredients as ObservableList

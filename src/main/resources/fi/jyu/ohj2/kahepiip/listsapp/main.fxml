@@ -35,16 +35,17 @@
    <Button fx:id="emptyBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleEmptyBtn" text="Empty shopping list" VBox.vgrow="NEVER" />
    <HBox spacing="5.0" VBox.vgrow="NEVER">
       <children>
-         <VBox alignment="CENTER" minWidth="145.0" spacing="5.0" HBox.hgrow="ALWAYS">
+         <VBox alignment="TOP_CENTER" minWidth="145.0" spacing="5.0" HBox.hgrow="ALWAYS">
             <children>
                <Button fx:id="recipesBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRecipesBtn" text="Recipes" VBox.vgrow="NEVER" />
                <Button fx:id="newRecipeBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleNewRecipeBtn" text="Create a new recipe" VBox.vgrow="NEVER" />
             </children>
          </VBox>
-         <VBox alignment="CENTER" minWidth="145.0" spacing="5.0" HBox.hgrow="ALWAYS">
+         <VBox alignment="CENTER_RIGHT" minWidth="145.0" spacing="5.0" HBox.hgrow="ALWAYS">
             <children>
                <Button fx:id="savedListsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSavedListsBtn" text="Saved lists" VBox.vgrow="NEVER" />
                <Button fx:id="saveBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSaveBtn" text="Save current list" VBox.vgrow="NEVER" />
+               <Button fx:id="deleteItemBtn" mnemonicParsing="false" onAction="#handleDeleteItemBtn" text="Delete Item" />
             </children>
          </VBox>
       </children>

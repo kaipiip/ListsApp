@@ -59,6 +59,9 @@ public class NewRecipeController implements Initializable {
     @FXML
     private Button returnBtn;
 
+    @FXML
+    private Button deleteIngredientBtn;
+
     /**
      * Save created Recipe to RecipeLibrary and clear TableView and textFields
      * @param event saveBtn
@@ -81,6 +84,7 @@ public class NewRecipeController implements Initializable {
                 .forEach(item ->
                         shoppingList.addItem(item.toString()));
 
+        newRecipe();
         returnToMainView(event);
     }
 
@@ -125,6 +129,11 @@ public class NewRecipeController implements Initializable {
         returnToMainView(event);
     }
 
+    @FXML
+    private void handleDeleteIngredientBtn(ActionEvent event){
+        removeChosenItem();
+    }
+
     FXMLLoader loader = new FXMLLoader(App.class.getResource("main.fxml"));
     Recipe recipe = new Recipe();
     RecipeLibrary recipeLibrary = new RecipeLibrary();
@@ -146,6 +155,33 @@ public class NewRecipeController implements Initializable {
         unitCombo.setValue(Unit.NULL);
         categoryCombo.setItems(FXCollections.observableArrayList(Category.values()));
         categoryCombo.setValue(Category.UNCATEGORIZED);
+
+        /*
+        Hides delete button, if row not selected.
+         */
+        deleteIngredientBtn.setVisible(false);
+        newRecipeTable.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    if(newValue == null){
+                        deleteIngredientBtn.setVisible(false);
+                    } else {
+                        deleteIngredientBtn.setVisible(true);
+                    }
+                });
+
+        /*
+        Clicking empty row clear's selection.
+         */
+        newRecipeTable.setRowFactory(tv -> {
+            TableRow<ListItem> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if(row.isEmpty()){
+                    newRecipeTable.getSelectionModel().clearSelection();
+                }
+            });
+            return row;
+        });
     }
 
     /**
@@ -153,7 +189,7 @@ public class NewRecipeController implements Initializable {
      * @param event event Button
      * @throws Exception exception
      */
-    public void returnToMainView(ActionEvent event) throws Exception{
+    private void returnToMainView(ActionEvent event) throws Exception{
         Parent mainView = loader.load();
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.setRoot(mainView);
@@ -163,7 +199,7 @@ public class NewRecipeController implements Initializable {
      * Creates and saves new Recipe from current TableView ListItems,
      * TextField (recipe name) and comboBox(category).
      */
-    public void newRecipe(){
+    private void newRecipe(){
         Recipe newRecipe = new Recipe();
         String recipeName = recipeNameTxt.getText();
 
@@ -180,5 +216,13 @@ public class NewRecipeController implements Initializable {
 
         recipeNameTxt.clear();
         newRecipeTable.getItems().clear();
+    }
+
+    private void removeChosenItem(){
+        ListItem chosenItem = newRecipeTable.getSelectionModel().getSelectedItem();
+        if(chosenItem == null){
+            return;
+        }
+        recipe.removeItem(chosenItem);
     }
 }

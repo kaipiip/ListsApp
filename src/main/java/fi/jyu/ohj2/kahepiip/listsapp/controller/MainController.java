@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseButton;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,6 +36,9 @@ public class MainController implements Initializable {
     @FXML
     private Button newRecipeBtn;
 
+    @FXML
+    private Button deleteItemBtn;
+
     /*
     To be developed later
      */
@@ -50,6 +55,12 @@ public class MainController implements Initializable {
     private TableView<ListItem> itemTable;
 
     @FXML
+    private TableColumn<ListItem, Boolean> completedColumn = new TableColumn<>("Check");
+
+    @FXML
+    private TableColumn<ListItem, String> itemNameColumn = new TableColumn<>("Item");
+
+    @FXML
     private void handleAddItemBtn(ActionEvent event){
         addItemOnList();
     }
@@ -57,6 +68,11 @@ public class MainController implements Initializable {
     @FXML
     private void handleItemTxt(ActionEvent event){
         addItemOnList();
+    }
+
+    @FXML
+    private void handleDeleteItemBtn(ActionEvent event) {
+        removeChosenItem();
     }
 
     /**
@@ -119,13 +135,42 @@ public class MainController implements Initializable {
         itemTable.setItems(shoppingList.getItems());
         itemTable.setEditable(true);
 
-        TableColumn<ListItem, Boolean> completedColumn = new TableColumn<>("Check box");
         completedColumn.setCellValueFactory(cd -> cd.getValue().completionProperty());
         completedColumn.setCellFactory(CheckBoxTableCell.forTableColumn(completedColumn));
+        completedColumn.setPrefWidth(50);
 
-        TableColumn<ListItem, String> itemNameColumn = new TableColumn<>("Item");
         itemNameColumn.setCellValueFactory(cd -> cd.getValue().titleProperty());
+        itemNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        itemNameColumn.setPrefWidth(240);
+
         itemTable.getColumns().addAll(completedColumn, itemNameColumn);
+
+        /*
+        Hides delete item button, if row not  selected.
+         */
+        deleteItemBtn.setVisible(false);
+        itemTable.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    if(newValue == null){
+                        deleteItemBtn.setVisible(false);
+                    } else {
+                      deleteItemBtn.setVisible(true);
+                    }
+                });
+
+        /*
+        Clicking empty row clear's selection.
+         */
+        itemTable.setRowFactory(tv -> {
+            TableRow<ListItem> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if(row.isEmpty()){
+                    itemTable.getSelectionModel().clearSelection();
+                }
+            });
+            return row;
+        });
 
         shoppingList.load();
 
@@ -145,5 +190,13 @@ public class MainController implements Initializable {
         }
         shoppingList.addItem(item);
         itemTxt.clear();
+    }
+
+    private void removeChosenItem(){
+        ListItem chosenItem = itemTable.getSelectionModel().getSelectedItem();
+        if(chosenItem == null){
+            return;
+        }
+        shoppingList.removeItem(chosenItem);
     }
 }

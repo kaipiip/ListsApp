@@ -1,6 +1,7 @@
 package fi.jyu.ohj2.kahepiip.listsapp.controller;
 
 import fi.jyu.ohj2.kahepiip.listsapp.App;
+import fi.jyu.ohj2.kahepiip.listsapp.model.ItemCollection;
 import fi.jyu.ohj2.kahepiip.listsapp.model.ListItem;
 import fi.jyu.ohj2.kahepiip.listsapp.model.Recipe;
 import fi.jyu.ohj2.kahepiip.listsapp.model.RecipeLibrary;
@@ -29,6 +30,15 @@ public class RecipeViewController implements Initializable {
 
     @FXML
     private TreeView<String> recipeTree;
+
+    @FXML
+    private TreeItem<String> libraryRoot;
+
+    @FXML
+    private CheckBoxTreeItem<String> cbRecipe;
+
+    @FXML
+    private CheckBoxTreeItem<String> cbIngredient;
 
     @FXML
     private TextField searchTxt;
@@ -80,24 +90,29 @@ public class RecipeViewController implements Initializable {
     }
 
     RecipeLibrary recipeLibrary = new RecipeLibrary();
+    ItemCollection shoppingList = new ItemCollection();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         recipeLibrary.loadRecipes();
-        TreeItem<String> library = new TreeItem<>("Recipes");
+        shoppingList.load();
+        libraryRoot = new TreeItem<>();
 
-        recipeTree.setCellFactory(CheckBoxTreeCell.<String>forTreeView());
+
+
+        recipeTree.setCellFactory(CheckBoxTreeCell.forTreeView());
         for (Recipe r : recipeLibrary.getRecipes()){
-            CheckBoxTreeItem<String> cbTree = new CheckBoxTreeItem<>(r.getRecipeName());
-            library.getChildren().add(cbTree);
+            cbRecipe = new CheckBoxTreeItem<>(r.getRecipeName());
+            libraryRoot.getChildren().add(cbRecipe);
 
             for(ListItem ingredient : r.getItems()){
-                CheckBoxTreeItem<String> cbLeaf = new CheckBoxTreeItem<>(ingredient.toString());
-                cbTree.getChildren().add(cbLeaf);
+                cbIngredient = new CheckBoxTreeItem<>(ingredient.getTitle());
+                cbRecipe.getChildren().add(cbIngredient);
             }
         }
 
-        recipeTree.setRoot(library);
+
+        recipeTree.setRoot(libraryRoot);
         recipeTree.setShowRoot(false);
         recipeTree.setEditable(true);
     }
