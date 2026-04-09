@@ -12,10 +12,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import tools.jackson.databind.ObjectMapper;
 
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 public class NewRecipeController implements Initializable {
@@ -72,12 +70,21 @@ public class NewRecipeController implements Initializable {
     }
 
     /**
-     * Save recipe and move items to today's shopping list
+     * Save recipe and move items to today's shopping list,
+     * if no new recipe created, return to mainView without adding
+     * ingredients to shopping list.
      * @param event SaveAndAddBtn
      * @throws Exception exception
      */
     @FXML
     private void handleSaveAndAddBtn(ActionEvent event) throws Exception{
+        String text = recipeNameTxt.getText();
+
+        if(text == null || text.isBlank()){
+            returnToMainView(event);
+            return;
+        }
+
         Recipe conveyList = new Recipe();
         conveyList.load();
         conveyList.getItems()
@@ -129,6 +136,10 @@ public class NewRecipeController implements Initializable {
         returnToMainView(event);
     }
 
+    /**
+     * Remove chosen ingredient from recipe.
+     * @param event deleteIngredientBtn
+     */
     @FXML
     private void handleDeleteIngredientBtn(ActionEvent event){
         removeChosenItem();

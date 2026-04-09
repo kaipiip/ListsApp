@@ -159,6 +159,9 @@ public class MainController implements Initializable {
                     }
                 });
 
+        saveBtn.setDisable(true);
+        savedListsBtn.setDisable(true);
+
         /*
         Clicking empty row clear's selection.
          */

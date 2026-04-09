@@ -15,7 +15,7 @@ import java.util.List;
  * ItemCollection-object. Contains ObservableList of ListItems.
  */
 public class ItemCollection implements Collections {
-    private final Path path = Path.of("shopping-list.json");
+    private Path path = Path.of("shopping-list.json");
     private final ObjectMapper mapper = new ObjectMapper();
 
     /**
@@ -36,6 +36,14 @@ public class ItemCollection implements Collections {
             items.addListener((ListChangeListener<ListItem>) change -> {
                 save();
             });
+    }
+
+    public ItemCollection(String path){
+        this.path = Path.of(path);
+        items.addListener((ListChangeListener<ListItem>) change -> {
+            save();
+        });
+
     }
 
     /**
