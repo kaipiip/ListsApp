@@ -23,7 +23,7 @@ public class RecipeLibrary {
      */
     private ObservableList<Recipe> recipes = FXCollections.observableArrayList(
             recipe -> new Observable[]{
-                    recipe.recipeNameProperty(),
+                    recipe.nameProperty(),
                     recipe.categoryProperty()
             }
     );

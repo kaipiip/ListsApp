@@ -13,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.MouseButton;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,55 +20,69 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField itemTxt;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button addItemBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button emptyBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button recipesBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button newRecipeBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button deleteItemBtn;
 
     /*
     To be developed later
      */
+    @SuppressWarnings("unused")
     @FXML
     private Button savedListsBtn;
 
     /*
     To be developed later
      */
+    @SuppressWarnings("unused")
     @FXML
     private Button saveBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private TableView<ListItem> itemTable;
 
+    @SuppressWarnings("unused")
     @FXML
-    private TableColumn<ListItem, Boolean> completedColumn = new TableColumn<>("Check");
+    private final TableColumn<ListItem, Boolean> completedColumn = new TableColumn<>("Check");
 
+    @SuppressWarnings("unused")
     @FXML
-    private TableColumn<ListItem, String> itemNameColumn = new TableColumn<>("Item");
+    private final TableColumn<ListItem, String> itemNameColumn = new TableColumn<>("Item");
 
+    @SuppressWarnings("unused")
     @FXML
     private void handleAddItemBtn(ActionEvent event){
         addItemOnList();
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void handleItemTxt(ActionEvent event){
         addItemOnList();
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void handleDeleteItemBtn(ActionEvent event) {
         removeChosenItem();
@@ -79,6 +92,7 @@ public class MainController implements Initializable {
      * Clears TableView and ItemCollection
      * @param event emptyBtn
      */
+    @SuppressWarnings("unused")
     @FXML
     private void handleEmptyBtn(ActionEvent event){
         itemTable.getItems().removeAll(shoppingList.getItems());
@@ -89,6 +103,7 @@ public class MainController implements Initializable {
      * @param event recipesBtn
      * @throws Exception exception
      */
+    @SuppressWarnings("unused")
     @FXML
     private void handleRecipesBtn(ActionEvent event) throws Exception {
         IO.println("Go to Recipe View.");
@@ -102,6 +117,7 @@ public class MainController implements Initializable {
      * @param event newRecipeBtn
      * @throws Exception exception
      */
+    @SuppressWarnings("unused")
     @FXML
     private void handleNewRecipeBtn(ActionEvent event) throws Exception{
         IO.println("Create a new recipe.");
@@ -114,6 +130,7 @@ public class MainController implements Initializable {
     /*
     To be developed later
     */
+    @SuppressWarnings("unused")
     @FXML
     private void handleSavedListsBtn(ActionEvent event){
     }
@@ -121,6 +138,7 @@ public class MainController implements Initializable {
     /*
     To be developed later
     */
+    @SuppressWarnings("unused")
     @FXML
     private void handleSaveBtn(ActionEvent event){
     }
@@ -128,7 +146,7 @@ public class MainController implements Initializable {
     /**
      * ItemCollection of ListItems for TableView
      */
-    private ItemCollection shoppingList = new ItemCollection();
+    private final ItemCollection shoppingList = new ItemCollection();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -139,7 +157,8 @@ public class MainController implements Initializable {
         completedColumn.setCellFactory(CheckBoxTableCell.forTableColumn(completedColumn));
         completedColumn.setPrefWidth(50);
 
-        itemNameColumn.setCellValueFactory(cd -> cd.getValue().titleProperty());
+        itemNameColumn.setCellValueFactory(cd -> cd.getValue().nameProperty());
+        // MITEN ESTÄÄ TYHJÄKSI JÄTTÄMINEN?
         itemNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         itemNameColumn.setPrefWidth(240);
 

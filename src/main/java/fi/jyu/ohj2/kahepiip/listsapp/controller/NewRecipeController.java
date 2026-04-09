@@ -18,45 +18,59 @@ import java.util.ResourceBundle;
 
 public class NewRecipeController implements Initializable {
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField recipeNameTxt;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField ingredientTxt;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField amountTxt;
 
+    @SuppressWarnings("unused")
     @FXML
     private ComboBox<Category> categoryCombo;
 
+    @SuppressWarnings("unused")
     @FXML
     private ComboBox<Unit> unitCombo;
 
+    @SuppressWarnings("unused")
     @FXML
     private TableView<ListItem> newRecipeTable;
 
+    @SuppressWarnings("unused")
     @FXML
     private final TableColumn<ListItem, Double> amountColumn = new TableColumn<>("Amount");
 
+    @SuppressWarnings("unused")
     @FXML
     private final TableColumn<ListItem, Unit> unitColumn = new TableColumn<>("Unit");
 
+    @SuppressWarnings("unused")
     @FXML
     private final TableColumn<ListItem, String> nameColumn = new TableColumn<>("Ingredient");
 
+    @SuppressWarnings("unused")
     @FXML
     private Button addIngredientBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button saveBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button saveAndAddBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button returnBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button deleteIngredientBtn;
 
@@ -64,6 +78,7 @@ public class NewRecipeController implements Initializable {
      * Save created Recipe to RecipeLibrary and clear TableView and textFields
      * @param event saveBtn
      */
+    @SuppressWarnings("unused")
     @FXML
     private void handleSaveBtn(ActionEvent event){
         newRecipe();
@@ -76,6 +91,7 @@ public class NewRecipeController implements Initializable {
      * @param event SaveAndAddBtn
      * @throws Exception exception
      */
+    @SuppressWarnings("unused")
     @FXML
     private void handleSaveAndAddBtn(ActionEvent event) throws Exception{
         String text = recipeNameTxt.getText();
@@ -100,6 +116,7 @@ public class NewRecipeController implements Initializable {
      * TextFields and ComboBox if successful. Clears TextFields.
      * @param event addIngredientBtn
      */
+    @SuppressWarnings("unused")
     @FXML
     private void handleAddIngredientBtn(ActionEvent event){
         Platform.runLater(ingredientTxt::requestFocus);
@@ -131,6 +148,7 @@ public class NewRecipeController implements Initializable {
      * @param event returnBtn
      * @throws Exception exception
      */
+    @SuppressWarnings("unused")
     @FXML
     private void handleReturnBtn(ActionEvent event) throws Exception{
         returnToMainView(event);
@@ -140,6 +158,7 @@ public class NewRecipeController implements Initializable {
      * Remove chosen ingredient from recipe.
      * @param event deleteIngredientBtn
      */
+    @SuppressWarnings("unused")
     @FXML
     private void handleDeleteIngredientBtn(ActionEvent event){
         removeChosenItem();
@@ -159,7 +178,7 @@ public class NewRecipeController implements Initializable {
 
         amountColumn.setCellValueFactory(cd -> cd.getValue().amountProperty().asObject());
         unitColumn.setCellValueFactory(cd -> cd.getValue().unitProperty());
-        nameColumn.setCellValueFactory(cd -> cd.getValue().titleProperty());
+        nameColumn.setCellValueFactory(cd -> cd.getValue().nameProperty());
         newRecipeTable.getColumns().addAll(amountColumn, unitColumn, nameColumn);
 
         unitCombo.setItems(FXCollections.observableArrayList(Unit.values()));
@@ -218,7 +237,7 @@ public class NewRecipeController implements Initializable {
             recipeNameTxt.clear();
             return;
         }
-        newRecipe.setRecipeName(recipeName);
+        newRecipe.setName(recipeName);
         newRecipe.setCategory(categoryCombo.getValue());
 
         newRecipe.setItems(recipe.getItems());

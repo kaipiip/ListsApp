@@ -24,7 +24,7 @@ public class ItemCollection implements Collections {
      */
     private ObservableList<ListItem> items = FXCollections.observableArrayList(
             item -> new Observable[]{
-                    item.titleProperty(),
+                    item.nameProperty(),
                     item.completionProperty()
             });
 

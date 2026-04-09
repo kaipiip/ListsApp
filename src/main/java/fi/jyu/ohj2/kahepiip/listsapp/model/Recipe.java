@@ -16,14 +16,10 @@ import java.util.List;
 /**
  * Recipe -object. Recipe contains it's name, category and an ObservableList of ingredients.
  */
-public class Recipe implements Collections {
+public class Recipe extends RecipeParent implements Collections {
     private final Path ingredientPath = Path.of("ingredient-list.json");
     private final ObjectMapper mapper = new ObjectMapper();
 
-    /**
-     * Recipe-object's name
-     */
-    private StringProperty recipeName = new SimpleStringProperty();
     /**
      * Recipe-object's category
      */
@@ -35,7 +31,7 @@ public class Recipe implements Collections {
      */
     private ObservableList<ListItem> ingredients = FXCollections.observableArrayList(
             ingredient -> new Observable[]{
-                    ingredient.titleProperty(),
+                    ingredient.nameProperty(),
                     ingredient.completionProperty(),
                     ingredient.amountProperty(),
                     ingredient.unitProperty()
@@ -51,17 +47,13 @@ public class Recipe implements Collections {
         });
     }
 
-    public void setRecipeName(String title){this.recipeName.set(title);}
-    public String getRecipeName(){return this.recipeName.get();}
-    public StringProperty recipeNameProperty(){return this.recipeName;}
-
     public void setCategory(Category category){this.category.set(category);}
     public Category getCategory(){return category.get();}
     public ObjectProperty<Category> categoryProperty(){return category;}
 
     @Override
     public String toString(){
-        return getRecipeName();
+        return getName();
     }
 
     /**

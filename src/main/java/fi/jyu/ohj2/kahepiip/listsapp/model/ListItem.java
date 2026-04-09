@@ -5,11 +5,8 @@ import javafx.beans.property.*;
 /**
  * ListItem-object with title, completion, amount and unit-properties.
  */
-public class ListItem {
-    /**
-     * ListItem-object's title.
-     */
-    private StringProperty title = new SimpleStringProperty();
+public class ListItem extends RecipeParent {
+
     /**
      * ListItem-object's completion status.
      */
@@ -41,7 +38,7 @@ public class ListItem {
      * @param title item title
      */
     public ListItem(String title){
-        this.title.set(title);
+        this.setName(title);
     }
 
     /**
@@ -50,13 +47,9 @@ public class ListItem {
      * @param ingredient is/isn't an ingredient
      */
     public ListItem(String title, boolean ingredient){
-        this.title.set(title);
+        this.setName(title);
         this.ingredient = ingredient;
     }
-
-    public void setTitle(String title){this.title.set(title);}
-    public String getTitle(){return title.get();}
-    public StringProperty titleProperty() {return this.title;}
 
     public void setCompletion(boolean completion) {this.completion.set(completion);}
     public boolean getCompletion() {return this.completion.get();}
@@ -88,6 +81,6 @@ public class ListItem {
      */
     @Override
     public String toString() {
-        return (getAmount() + " " + getUnit().toString().toLowerCase() + " " + getTitle());
+        return (getAmount() + " " + getUnit().toString().toLowerCase() + " " + getName());
     }
 }

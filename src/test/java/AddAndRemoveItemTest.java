@@ -10,6 +10,6 @@ public class AddAndRemoveItemTest {
         ItemCollection items = new ItemCollection("test-collection.json");
         items.addItem("egg");
         assertEquals(1, items.getItems().size());
-        assertEquals("egg", items.getItems().getFirst().getTitle());
+        assertEquals("egg", items.getItems().getFirst().getName());
     }
 }
