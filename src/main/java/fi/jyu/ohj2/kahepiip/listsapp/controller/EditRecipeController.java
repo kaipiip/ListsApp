@@ -101,12 +101,12 @@ public class EditRecipeController implements Initializable{
     @FXML
     void handleSaveEditedAndAddBtn(ActionEvent event) throws Exception{
         if(!ValidateRecipe()){
-            returnToRecipeView(event);
+            returnToMainView(event);
             return;
         }
 
         Recipe conveyList = new Recipe();
-        conveyList.load();
+        conveyList.load(); // Loads last saved ingredients from ingredient-list.json
         conveyList.getItems()
                 .forEach(item ->
                         shoppingList.addItem(item.toString()));
@@ -118,12 +118,15 @@ public class EditRecipeController implements Initializable{
 
     @FXML
     void handleSaveEditedBtn(ActionEvent event) throws Exception{
+        if(!ValidateRecipe()){
+            return;
+        }
         saveEditedRecipe();
         returnToRecipeView(event);
     }
 
-    RecipeLibrary recipeLibrary = new RecipeLibrary();
-    ItemCollection shoppingList = new ItemCollection();
+    private RecipeLibrary recipeLibrary = new RecipeLibrary();
+    private ItemCollection shoppingList = new ItemCollection();
     private Recipe recipe = new Recipe();
 
     @Override
@@ -192,21 +195,21 @@ public class EditRecipeController implements Initializable{
     }
 
     /**
-     * Creates and saves new Recipe from current TableView ListItems,
+     * Saves edited Recipe from current TableView ListItems,
      * TextField (recipe name) and comboBox(category).
      */
     private void saveEditedRecipe(){
         String recipeName = editNameTxt.getText();
 
-        if(!ValidateRecipe()){
-            return;
-        }
-        recipe.setName(recipeName);
-        recipe.setCategory(editCategoryCombo.getValue());
-        recipe.setItems(editRecipeTable.getItems());
+        // Creates new recipe of contents:
+        Recipe placeholder = new Recipe();
+        placeholder.setItems(editRecipeTable.getItems());
+        placeholder.setName(recipeName);
+        placeholder.setCategory(editCategoryCombo.getValue());
 
-        editNameTxt.clear();
-        editRecipeTable.getItems().clear();
+        // Remove old recipe and add new:
+        recipeLibrary.removeRecipe(recipeLibrary.getRecipe(recipe));
+        recipeLibrary.addRecipe(placeholder);
     }
 
     /**
@@ -233,12 +236,16 @@ public class EditRecipeController implements Initializable{
      */
     private boolean ValidateRecipe(){
         String  recipeName = editNameTxt.getText();
+        editNameTxt.setStyle("");
+        editRecipeTable.setStyle("");
 
         if(recipeName == null || recipeName.isBlank()){
             editNameTxt.clear();
+            editNameTxt.setStyle("-fx-border-color: red;");
             return false;
         }
         if(recipe.getItems().isEmpty()){
+            editRecipeTable.setStyle("-fx-border-color: red;");
             return false;
         }
 

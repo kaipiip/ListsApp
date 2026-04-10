@@ -81,6 +81,9 @@ public class NewRecipeController implements Initializable {
     @SuppressWarnings("unused")
     @FXML
     private void handleSaveBtn(ActionEvent event){
+        if(!ValidateRecipe()){
+            return;
+        }
         newRecipe();
     }
 
@@ -163,11 +166,10 @@ public class NewRecipeController implements Initializable {
         removeChosenItem();
     }
 
-    FXMLLoader loader = new FXMLLoader(App.class.getResource("main.fxml"));
-    Recipe recipe = new Recipe();
-    RecipeLibrary recipeLibrary = new RecipeLibrary();
-    ItemCollection shoppingList = new ItemCollection();
-    private Recipe recipeToEdit;
+    private FXMLLoader loader = new FXMLLoader(App.class.getResource("main.fxml"));
+    private Recipe recipe = new Recipe();
+    private RecipeLibrary recipeLibrary = new RecipeLibrary();
+    private ItemCollection shoppingList = new ItemCollection();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -229,9 +231,6 @@ public class NewRecipeController implements Initializable {
         Recipe newRecipe = new Recipe();
         String recipeName = recipeNameTxt.getText();
 
-        if(!ValidateRecipe()){
-            return;
-        }
         newRecipe.setName(recipeName);
         newRecipe.setCategory(categoryCombo.getValue());
         newRecipe.setItems(recipe.getItems());
@@ -259,12 +258,16 @@ public class NewRecipeController implements Initializable {
      */
     private boolean ValidateRecipe(){
         String  recipeName = recipeNameTxt.getText();
+        recipeNameTxt.setStyle("");
+        newRecipeTable.setStyle("");
 
         if(recipeName == null || recipeName.isBlank()){
             recipeNameTxt.clear();
+            recipeNameTxt.setStyle("-fx-border-color: red;");
             return false;
         }
         if(recipe.getItems().isEmpty()){
+            newRecipeTable.setStyle("-fx-border-color: red;");
             return false;
         }
 

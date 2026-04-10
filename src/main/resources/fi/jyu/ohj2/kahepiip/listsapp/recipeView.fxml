@@ -17,7 +17,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="arrangeCombo" maxWidth="1.7976931348623157E308" onAction="#handleArrangeCombo" promptText="Arrange by:" VBox.vgrow="NEVER" />
+      <ComboBox fx:id="arrangeCombo" maxWidth="1.7976931348623157E308" onAction="#handleArrangeCombo" promptText="Sort by category:" VBox.vgrow="NEVER" />
       <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
          <children>
             <TreeView fx:id="recipeTree" VBox.vgrow="ALWAYS" />

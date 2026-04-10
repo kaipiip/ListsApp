@@ -2,6 +2,7 @@ package fi.jyu.ohj2.kahepiip.listsapp.controller;
 
 import fi.jyu.ohj2.kahepiip.listsapp.App;
 import fi.jyu.ohj2.kahepiip.listsapp.model.*;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,19 +15,14 @@ import javafx.scene.control.cell.CheckBoxTreeCell;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class RecipeViewController implements Initializable {
 
     @SuppressWarnings("unused")
     @FXML
-    private ComboBox<String> arrangeCombo;
-
-    @SuppressWarnings("unused")
-    @FXML
-    private void handleArrangeCombo(ActionEvent event){
-        IO.println("Arrange recipes");
-    }
+    private ComboBox<Category> arrangeCombo;
 
     @SuppressWarnings("unused")
     @FXML
@@ -70,6 +66,12 @@ public class RecipeViewController implements Initializable {
 
     @SuppressWarnings("unused")
     @FXML
+    private void handleArrangeCombo(ActionEvent event){
+        IO.println("Arrange recipes");
+    }
+
+    @SuppressWarnings("unused")
+    @FXML
     private void handleSearchBtn(ActionEvent event){
         IO.println("Search for a recipe");
     }
@@ -97,14 +99,13 @@ public class RecipeViewController implements Initializable {
     @SuppressWarnings("unused")
     @FXML
     private void handleReturnBtn(ActionEvent event) throws Exception{
-        IO.println("return to main view");
         Parent mainView = FXMLLoader.load(App.class.getResource("main.fxml"));
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.setRoot(mainView);
     }
 
-    RecipeLibrary recipeLibrary = new RecipeLibrary();
-    ItemCollection shoppingList = new ItemCollection();
+    private RecipeLibrary recipeLibrary = new RecipeLibrary();
+    private ItemCollection shoppingList = new ItemCollection();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -124,8 +125,19 @@ public class RecipeViewController implements Initializable {
             for(ListItem ingredient : r.getItems()){
                 cbIngredient = new CheckBoxTreeItem<>(ingredient);
                 cbRecipe.getChildren().add(cbIngredient);
+                cbIngredient.selectedProperty().addListener((observable, oldValue, newValue)-> {
+                    // CheckBox listener for adding checked ingredients to shopping list.
+                    if(newValue == true){
+                        shoppingList.addItem(ingredient);
+                    } else if (newValue == false){ // if item is checked, and later unchecked.
+                        shoppingList.removeItem(ingredient);
+                    }
+                });
             }
         }
+
+        arrangeCombo.setItems(FXCollections.observableArrayList(Category.values()));
+
 
         recipeTree.setRoot(libraryRoot);
         recipeTree.setShowRoot(false);
@@ -175,6 +187,8 @@ public class RecipeViewController implements Initializable {
             return;
         }
         RecipeParent recipeP = chosenRecipe.getValue();
+        // Save ingredients for flatMapping.
+        recipeLibrary.getRecipe(recipeP).save();
 
         try{
             FXMLLoader loader = new FXMLLoader(App.class.getResource("editRecipe.fxml"));
@@ -187,5 +201,4 @@ public class RecipeViewController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
 }
