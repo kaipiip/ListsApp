@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTreeCell;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -76,7 +77,6 @@ public class RecipeViewController implements Initializable {
     @SuppressWarnings("unused")
     @FXML
     private void handleNewRecipeBtn(ActionEvent event) throws Exception{
-        IO.println("Create a new recipe");
         Parent recipeView = FXMLLoader.load(App.class.getResource("newRecipeView.fxml"));
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.setRoot(recipeView);
@@ -85,13 +85,13 @@ public class RecipeViewController implements Initializable {
     @SuppressWarnings("unused")
     @FXML
     private void handleRemoveBtn(ActionEvent event){
-        IO.println("Remove recipe");
+        removeChosenRecipe();
     }
 
     @SuppressWarnings("unused")
     @FXML
     private void handleEditBtn(ActionEvent event){
-        IO.println("Edit recipe");
+        editRecipe(event);
     }
 
     @SuppressWarnings("unused")
@@ -112,8 +112,10 @@ public class RecipeViewController implements Initializable {
         shoppingList.load();
         libraryRoot = new TreeItem<>();
 
-
-
+        /*
+        Creates TreeView with Recipe-objects as branches and ListItems (ingredients)
+        as leaves.
+         */
         recipeTree.setCellFactory(CheckBoxTreeCell.forTreeView());
         for (Recipe r : recipeLibrary.getRecipes()){
             cbRecipe = new CheckBoxTreeItem<>(r);
@@ -125,9 +127,65 @@ public class RecipeViewController implements Initializable {
             }
         }
 
-
         recipeTree.setRoot(libraryRoot);
         recipeTree.setShowRoot(false);
         recipeTree.setEditable(true);
+
+        // Disables remove -button, if branch not selected.
+        removeBtn.setDisable(true);
+        recipeTree.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    if(newValue == null || newValue.isLeaf()){
+                        removeBtn.setDisable(true);
+                    } else {
+                        removeBtn.setDisable(false);
+                    }
+                });
+
+        // Disables edit recipe -button, if branch not selected.
+        editBtn.setDisable(true);
+        recipeTree.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    if(newValue == null || newValue.isLeaf()){
+                        editBtn.setDisable(true);
+                    } else {
+                        editBtn.setDisable(false);
+                    }
+                });
     }
+
+    /**
+     * Removes chosen recipe from RecipeLibrary and TreeView.
+     */
+    private void removeChosenRecipe(){
+        TreeItem<RecipeParent> chosenRecipe = recipeTree.getSelectionModel().getSelectedItem();
+        if(chosenRecipe == null){
+            return;
+        }
+        RecipeParent recipeP = chosenRecipe.getValue();
+        recipeLibrary.removeRecipe(recipeLibrary.getRecipe(recipeP));
+        libraryRoot.getChildren().remove(chosenRecipe);
+    }
+
+    private void editRecipe(ActionEvent event){
+        TreeItem<RecipeParent> chosenRecipe = recipeTree.getSelectionModel().getSelectedItem();
+        if(chosenRecipe == null){
+            return;
+        }
+        RecipeParent recipeP = chosenRecipe.getValue();
+
+        try{
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("editRecipe.fxml"));
+            Parent recipeView = loader.load();
+            Scene currentScene = ((Node) event.getSource()).getScene();
+            EditRecipeController controller = loader.getController();
+            controller.setRecipeToEdit(recipeLibrary.getRecipe(recipeP));
+            currentScene.setRoot(recipeView);
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+    }
+
 }

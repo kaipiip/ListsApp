@@ -1,6 +1,7 @@
 package fi.jyu.ohj2.kahepiip.listsapp.model;
 
 import javafx.beans.Observable;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -9,7 +10,9 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * RecipeLibrary-object. Library contains Recipe-objects
@@ -54,7 +57,9 @@ public class RecipeLibrary {
      * Adds specified recipe to RecipeLibrary.
      * @param recipe Recipe-object
      */
-    public void addRecipe(Recipe recipe){recipes.add(recipe);}
+    public void addRecipe(Recipe recipe){
+        recipes.add(recipe);
+    }
 
     /**
      * Removes Recipe-object from RecipeLibrary
@@ -65,6 +70,21 @@ public class RecipeLibrary {
             return;
         }
         recipes.remove(recipe);
+    }
+
+    /**
+     * Finds specified Recipe Object, that matches RecipeParent
+     * nameProperty.
+     * @param recipe RecipeParent that's name is used as keyword
+     * @return Recipe with same name as parameter's.
+     */
+    public Recipe getRecipe(RecipeParent recipe){
+        for(Recipe r : recipes){
+            if(r.getName().equals(recipe.getName())){
+                return r;
+            }
+        }
+        return null;
     }
 
     /**

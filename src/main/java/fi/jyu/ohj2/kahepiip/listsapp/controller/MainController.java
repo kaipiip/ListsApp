@@ -164,9 +164,7 @@ public class MainController implements Initializable {
 
         itemTable.getColumns().addAll(completedColumn, itemNameColumn);
 
-        /*
-        Hides delete item button, if row not  selected.
-         */
+        // Hides delete item -button, if row not  selected.
         deleteItemBtn.setVisible(false);
         itemTable.getSelectionModel()
                 .selectedItemProperty()
@@ -181,9 +179,7 @@ public class MainController implements Initializable {
         saveBtn.setDisable(true);
         savedListsBtn.setDisable(true);
 
-        /*
-        Clicking empty row clear's selection.
-         */
+        // Clicking empty row clear's selection.
         itemTable.setRowFactory(tv -> {
             TableRow<ListItem> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -214,6 +210,9 @@ public class MainController implements Initializable {
         itemTxt.clear();
     }
 
+    /**
+     * Removes chosen item from shopping-list.
+     */
     private void removeChosenItem(){
         ListItem chosenItem = itemTable.getSelectionModel().getSelectedItem();
         if(chosenItem == null){

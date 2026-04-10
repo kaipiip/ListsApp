@@ -94,9 +94,8 @@ public class NewRecipeController implements Initializable {
     @SuppressWarnings("unused")
     @FXML
     private void handleSaveAndAddBtn(ActionEvent event) throws Exception{
-        String text = recipeNameTxt.getText();
 
-        if(text == null || text.isBlank()){
+        if(!ValidateRecipe()){
             returnToMainView(event);
             return;
         }
@@ -168,6 +167,7 @@ public class NewRecipeController implements Initializable {
     Recipe recipe = new Recipe();
     RecipeLibrary recipeLibrary = new RecipeLibrary();
     ItemCollection shoppingList = new ItemCollection();
+    private Recipe recipeToEdit;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -186,9 +186,7 @@ public class NewRecipeController implements Initializable {
         categoryCombo.setItems(FXCollections.observableArrayList(Category.values()));
         categoryCombo.setValue(Category.UNCATEGORIZED);
 
-        /*
-        Hides delete button, if row not selected.
-         */
+        // Hides delete -button, if row not selected.
         deleteIngredientBtn.setVisible(false);
         newRecipeTable.getSelectionModel()
                 .selectedItemProperty()
@@ -200,9 +198,7 @@ public class NewRecipeController implements Initializable {
                     }
                 });
 
-        /*
-        Clicking empty row clear's selection.
-         */
+        // Clicking empty row clear's selection.
         newRecipeTable.setRowFactory(tv -> {
             TableRow<ListItem> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -233,13 +229,11 @@ public class NewRecipeController implements Initializable {
         Recipe newRecipe = new Recipe();
         String recipeName = recipeNameTxt.getText();
 
-        if(recipeName == null || recipeName.isBlank()){
-            recipeNameTxt.clear();
+        if(!ValidateRecipe()){
             return;
         }
         newRecipe.setName(recipeName);
         newRecipe.setCategory(categoryCombo.getValue());
-
         newRecipe.setItems(recipe.getItems());
 
         recipeLibrary.addRecipe(newRecipe);
@@ -248,11 +242,32 @@ public class NewRecipeController implements Initializable {
         newRecipeTable.getItems().clear();
     }
 
+    /**
+     * Removes chosen ingredient from ingredient list.
+     */
     private void removeChosenItem(){
         ListItem chosenItem = newRecipeTable.getSelectionModel().getSelectedItem();
         if(chosenItem == null){
             return;
         }
         recipe.removeItem(chosenItem);
+    }
+
+    /**
+     * Validates creating/saving a recipe.
+     * @return If Recipe has no name or ingredients returns false, else true.
+     */
+    private boolean ValidateRecipe(){
+        String  recipeName = recipeNameTxt.getText();
+
+        if(recipeName == null || recipeName.isBlank()){
+            recipeNameTxt.clear();
+            return false;
+        }
+        if(recipe.getItems().isEmpty()){
+            return false;
+        }
+
+        return true;
     }
 }
