@@ -38,12 +38,15 @@ public class ItemCollection implements Collections {
             });
     }
 
+    /**
+     * ItemCollection-object for Unit Testing
+     * @param path path to test JSON -file
+     */
     public ItemCollection(String path){
         this.path = Path.of(path);
         items.addListener((ListChangeListener<ListItem>) change -> {
             save();
         });
-
     }
 
     /**
@@ -65,7 +68,13 @@ public class ItemCollection implements Collections {
      * @param title ListItem title
      */
     @Override
-    public void addItem(String title) {items.add(new ListItem(title.trim()));}
+    public void addItem(String title) {
+        String text = title.trim();
+        if(text.isBlank()){
+            return;
+        }
+        items.add(new ListItem(text));
+    }
 
     /**
      * Adds existing ListItem to this ItemCollection.

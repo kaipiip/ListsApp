@@ -17,7 +17,7 @@ import java.util.List;
  * Recipe -object. Recipe contains it's name, category and an ObservableList of ingredients.
  */
 public class Recipe extends RecipeParent implements Collections {
-    private final Path ingredientPath = Path.of("ingredient-list.json");
+    private Path ingredientPath = Path.of("ingredient-list.json");
     private final ObjectMapper mapper = new ObjectMapper();
 
     /**
@@ -42,6 +42,17 @@ public class Recipe extends RecipeParent implements Collections {
      * Changes are saved.
      */
     public Recipe(){
+        ingredients.addListener((ListChangeListener<ListItem>) change -> {
+            save();
+        });
+    }
+
+    /**
+     * Recipe-object for Unit Testing
+     * @param path path to test JSON -file
+     */
+    public Recipe(String path){
+        this.ingredientPath = Path.of(path);
         ingredients.addListener((ListChangeListener<ListItem>) change -> {
             save();
         });
@@ -76,7 +87,12 @@ public class Recipe extends RecipeParent implements Collections {
      */
     @Override
     public void addItem(String title) {
-        ingredients.add(new ListItem(title.trim(), true));}
+        String text = title.trim();
+        if(text.isBlank()){
+            return;
+        }
+        ingredients.add(new ListItem(text, true));
+    }
 
     /**
      * Adds existing ListItem to Recipe as an ingredient.
@@ -85,7 +101,8 @@ public class Recipe extends RecipeParent implements Collections {
     @Override
     public void addItem(ListItem ingredient) {
         ingredient.setIngredient(true);
-        ingredients.add(ingredient);}
+        ingredients.add(ingredient);
+    }
 
     /**
      * Removes ListItem from Recipe.

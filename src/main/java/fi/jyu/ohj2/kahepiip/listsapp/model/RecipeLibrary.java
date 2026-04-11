@@ -18,7 +18,7 @@ import java.util.Map;
  * RecipeLibrary-object. Library contains Recipe-objects
  */
 public class RecipeLibrary {
-    private final Path library = Path.of("recipe-library.json");
+    private Path library = Path.of("recipe-library.json");
     private final ObjectMapper mapper = new ObjectMapper();
 
     /**
@@ -42,6 +42,17 @@ public class RecipeLibrary {
     }
 
     /**
+     * RecipeLibrary-object for Unit Testing
+     * @param path path to test JSON -file
+     */
+    public RecipeLibrary(String path){
+        this.library = Path.of(path);
+        recipes.addListener((ListChangeListener<Recipe>) change -> {
+            saveRecipes();
+        });
+    }
+
+    /**
      *
      * @return Recipe-objects as ObservableList
      */
@@ -58,6 +69,9 @@ public class RecipeLibrary {
      * @param recipe Recipe-object
      */
     public void addRecipe(Recipe recipe){
+        if(recipe == null || recipe.getItems().isEmpty() || recipe.getName() == null){
+            return;
+        }
         recipes.add(recipe);
     }
 

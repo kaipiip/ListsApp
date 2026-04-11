@@ -2,6 +2,8 @@ shopping-list.json
 ingredient-list.json
 recipe-library.json
 test-collection.json
+test-ingredients.json
+test-library.json
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
