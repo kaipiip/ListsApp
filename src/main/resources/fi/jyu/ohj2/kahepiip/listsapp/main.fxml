@@ -29,7 +29,7 @@
    </HBox>
    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
       <children>
-         <TableView fx:id="itemTable" stylesheets="@style.css" VBox.vgrow="ALWAYS" />
+         <TableView fx:id="itemTable" VBox.vgrow="ALWAYS" />
       </children>
    </VBox>
    <Button fx:id="emptyBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleEmptyBtn" text="Empty shopping list" VBox.vgrow="NEVER" />

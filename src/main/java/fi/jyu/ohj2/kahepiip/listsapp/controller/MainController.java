@@ -4,6 +4,7 @@ import fi.jyu.ohj2.kahepiip.listsapp.App;
 import fi.jyu.ohj2.kahepiip.listsapp.model.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,9 +14,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.text.*;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -152,13 +156,12 @@ public class MainController implements Initializable {
         itemTable.setItems(shoppingList.getItems());
         itemTable.setEditable(true);
 
-
         completedColumn.setCellValueFactory(cd -> cd.getValue().completionProperty());
         completedColumn.setCellFactory(CheckBoxTableCell.forTableColumn(completedColumn));
         completedColumn.setPrefWidth(50);
 
         itemNameColumn.setCellValueFactory(cd -> new SimpleObjectProperty<>(cd.getValue()));
-        // Text strikethrough for completed items:
+        // Text color change for completed items:
         itemNameColumn.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(ListItem item, boolean empty) {
@@ -177,12 +180,13 @@ public class MainController implements Initializable {
                     textProperty().bind(item.nameProperty());
                     styleProperty().bind(
                             Bindings.when(item.completionProperty())
-                                    .then("text").otherwise("")
+                                    .then("-fx-text-fill: rgba(0,0,0,0.3);").otherwise("")
                     );
                 }
             }
         });
         itemNameColumn.setPrefWidth(240);
+
 
         itemTable.getColumns().addAll(completedColumn, itemNameColumn);
 

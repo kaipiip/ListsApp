@@ -24,8 +24,8 @@
             <TreeView fx:id="recipeTree" VBox.vgrow="ALWAYS" />
             <HBox spacing="10.0" VBox.vgrow="NEVER">
                <children>
-                  <TextField fx:id="searchTxt" promptText="Recipe" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="searchBtn" mnemonicParsing="false" text="Search" />
+                  <TextField fx:id="searchTxt" onAction="#handleSearchTxt" promptText="Recipe" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#handleSearchBtn" text="Search" />
                </children>
             </HBox>
             <Button fx:id="newRecipeBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleNewRecipeBtn" text="Create a New Recipe" VBox.vgrow="ALWAYS" />

@@ -67,7 +67,12 @@ public class RecipeViewController implements Initializable {
     @SuppressWarnings("unused")
     @FXML
     private void handleSearchBtn(ActionEvent event){
-        IO.println("Search for a recipe");
+        searchForRecipe();
+    }
+
+    @FXML
+    private void handleSearchTxt(ActionEvent event){
+        searchForRecipe();
     }
 
     @SuppressWarnings("unused")
@@ -203,5 +208,40 @@ public class RecipeViewController implements Initializable {
 
     private void arrangeRecipes(Category category){
 
+    }
+
+    private void searchForRecipe(){
+        String wanted = searchTxt.getText().trim().toLowerCase();
+
+        if(wanted.isBlank()){
+            searchTxt.clear();
+            return;
+        }
+        // Collapse expanded branches
+        libraryRoot.getChildren()
+                .forEach(tb -> tb.setExpanded(false));
+
+        // Search and expand Recipes which name contain search word.
+        libraryRoot.getChildren()
+                .stream()
+                .filter(tb -> tb.getValue()
+                        .getName()
+                        .toLowerCase()
+                        .contains(wanted))
+                .forEach(tb -> {
+                    tb.setExpanded(true);
+                });
+
+        // Search and expand Recipes which have ingredients that contain search word.
+        libraryRoot.getChildren()
+                .forEach(tb -> tb.getChildren()
+                        .stream()
+                        .filter(tl -> tl.getValue()
+                                .getName()
+                                .toLowerCase()
+                                .contains(wanted))
+                        .forEach(tl -> {
+                            tl.getParent().setExpanded(true);
+                        }));
     }
 }
