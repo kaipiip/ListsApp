@@ -3,6 +3,8 @@ package fi.jyu.ohj2.kahepiip.listsapp.controller;
 import fi.jyu.ohj2.kahepiip.listsapp.App;
 import fi.jyu.ohj2.kahepiip.listsapp.model.*;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.text.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -68,7 +70,7 @@ public class MainController implements Initializable {
 
     @SuppressWarnings("unused")
     @FXML
-    private final TableColumn<ListItem, String> itemNameColumn = new TableColumn<>("Item");
+    private final TableColumn<ListItem, ListItem> itemNameColumn = new TableColumn<>("Item");
 
     @SuppressWarnings("unused")
     @FXML
@@ -106,7 +108,6 @@ public class MainController implements Initializable {
     @SuppressWarnings("unused")
     @FXML
     private void handleRecipesBtn(ActionEvent event) throws Exception {
-        IO.println("Go to Recipe View.");
         Parent recipeView = FXMLLoader.load(App.class.getResource("recipeView.fxml"));
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.setRoot(recipeView);
@@ -120,11 +121,9 @@ public class MainController implements Initializable {
     @SuppressWarnings("unused")
     @FXML
     private void handleNewRecipeBtn(ActionEvent event) throws Exception{
-        IO.println("Create a new recipe.");
         Parent recipeView = FXMLLoader.load(App.class.getResource("newRecipeView.fxml"));
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.setRoot(recipeView);
-
     }
 
     /*
@@ -157,9 +156,31 @@ public class MainController implements Initializable {
         completedColumn.setCellFactory(CheckBoxTableCell.forTableColumn(completedColumn));
         completedColumn.setPrefWidth(50);
 
-        itemNameColumn.setCellValueFactory(cd -> cd.getValue().nameProperty());
-        // MITEN ESTÄÄ TYHJÄKSI JÄTTÄMINEN?
-        itemNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        itemNameColumn.setCellValueFactory(cd -> new SimpleObjectProperty<>(cd.getValue()));
+        // Text strikethrough for completed items:
+        itemNameColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(ListItem item, boolean empty) {
+                super.updateItem(item, empty);
+                /*
+                For the following, I got help from this StackOverflow q and a:
+                https://stackoverflow.com/questions/67977644/javafx-tablecell-linked-to-more-than-one-property
+                 */
+                textProperty().unbind();
+                styleProperty().unbind();
+
+                if (item == null || empty) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    textProperty().bind(item.nameProperty());
+                    styleProperty().bind(
+                            Bindings.when(item.completionProperty())
+                                    .then("-fx-text-fill: green;").otherwise("")
+                    );
+                }
+            }
+        });
         itemNameColumn.setPrefWidth(240);
 
         itemTable.getColumns().addAll(completedColumn, itemNameColumn);
@@ -191,7 +212,6 @@ public class MainController implements Initializable {
         });
 
         shoppingList.load();
-
     }
 
     /**

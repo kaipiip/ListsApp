@@ -3,6 +3,7 @@ package fi.jyu.ohj2.kahepiip.listsapp.controller;
 import fi.jyu.ohj2.kahepiip.listsapp.App;
 import fi.jyu.ohj2.kahepiip.listsapp.model.*;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,6 @@ import javafx.scene.control.cell.CheckBoxTreeCell;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class RecipeViewController implements Initializable {
@@ -63,12 +63,6 @@ public class RecipeViewController implements Initializable {
     @SuppressWarnings("unused")
     @FXML
     private Button returnBtn;
-
-    @SuppressWarnings("unused")
-    @FXML
-    private void handleArrangeCombo(ActionEvent event){
-        IO.println("Arrange recipes");
-    }
 
     @SuppressWarnings("unused")
     @FXML
@@ -123,14 +117,19 @@ public class RecipeViewController implements Initializable {
             libraryRoot.getChildren().add(cbRecipe);
 
             for(ListItem ingredient : r.getItems()){
+                // Create's a copy of ingredient, with amount and unit of measure
+                // in item's name for adding to shopping list.
+                ListItem item = new ListItem();
+                item.setName(ingredient.toString());
+
                 cbIngredient = new CheckBoxTreeItem<>(ingredient);
                 cbRecipe.getChildren().add(cbIngredient);
                 cbIngredient.selectedProperty().addListener((observable, oldValue, newValue)-> {
                     // CheckBox listener for adding checked ingredients to shopping list.
                     if(newValue == true){
-                        shoppingList.addItem(ingredient);
-                    } else if (newValue == false){ // if item is checked, and later unchecked.
-                        shoppingList.removeItem(ingredient);
+                        shoppingList.addItem(item);
+                    } else if (oldValue == true){ // if item is checked, and later unchecked.
+                        shoppingList.removeItem(item);
                     }
                 });
             }
@@ -200,5 +199,9 @@ public class RecipeViewController implements Initializable {
         } catch (IOException e){
             throw new RuntimeException(e);
         }
+    }
+
+    private void arrangeRecipes(Category category){
+
     }
 }

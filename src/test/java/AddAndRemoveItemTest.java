@@ -7,7 +7,7 @@ public class AddAndRemoveItemTest {
 
     @Test
     void addsItemCorrectly(){
-        ItemCollection items = new ItemCollection("test-collection.json");
+        ItemCollection items = new ItemCollection();
         items.addItem("egg");
         assertEquals(1, items.getItems().size());
         assertEquals("egg", items.getItems().getFirst().getName());
