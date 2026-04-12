@@ -65,27 +65,7 @@ public class EditRecipeController implements Initializable{
     @FXML
     void handleAddNewIngredientBtn(ActionEvent event) {
         Platform.runLater(addingredientTxt::requestFocus);
-        String ingredientName = addingredientTxt.getText();
-        ListItem ingredient = new ListItem(ingredientName, true);
-        double amount;
-
-        try{
-            amount = Double.parseDouble(addAmountTxt.getText());
-            ingredient.setAmount(amount);
-        } catch (Exception e) {
-            IO.println("Give amount as integer or decimal: " + e.getMessage());
-        }
-
-        if(ingredientName == null || ingredientName.isBlank()){
-            addingredientTxt.clear();
-            return;
-        }
-        ingredient.setUnit(addUnitCombo.getValue());
-
-        addingredientTxt.clear();
-        addAmountTxt.clear();
-
-        recipe.addItem(ingredient);
+        addIngredient();
     }
 
     @FXML
@@ -101,7 +81,6 @@ public class EditRecipeController implements Initializable{
     @FXML
     void handleSaveEditedAndAddBtn(ActionEvent event) throws Exception{
         if(!ValidateRecipe()){
-            returnToMainView(event);
             return;
         }
 
@@ -137,12 +116,15 @@ public class EditRecipeController implements Initializable{
         shoppingList.load();
 
         amountColumn.setCellValueFactory(cd -> cd.getValue().amountProperty().asObject());
+        amountColumn.setPrefWidth(50);
         unitColumn.setCellValueFactory(cd -> cd.getValue().unitProperty());
+        unitColumn.setPrefWidth(65);
         nameColumn.setCellValueFactory(cd -> cd.getValue().nameProperty());
+        nameColumn.setMinWidth(175);
         editRecipeTable.getColumns().addAll(amountColumn, unitColumn, nameColumn);
 
         addUnitCombo.setItems(FXCollections.observableArrayList(Unit.values()));
-        addUnitCombo.setValue(Unit.NULL);
+        addUnitCombo.setValue(Unit.UNIT);
         editCategoryCombo.setItems(FXCollections.observableArrayList(Category.values()));
         editCategoryCombo.setValue(Category.UNCATEGORIZED);
 
@@ -250,6 +232,39 @@ public class EditRecipeController implements Initializable{
         }
 
         return true;
+    }
+
+    /**
+     * Creates new ListItem as ingredient to Recipe with input from
+     * TextFields and ComboBox if successful. Clears TextFields.
+     */
+    public void addIngredient(){
+        String ingredientName = addingredientTxt.getText();
+        ListItem ingredient = new ListItem(ingredientName, true);
+        double amount;
+        addAmountTxt.setStyle("");
+        addingredientTxt.setStyle("");
+
+        try{
+            amount = Double.parseDouble(addAmountTxt.getText());
+            ingredient.setAmount(amount);
+        } catch (Exception e) {
+            addAmountTxt.setStyle("-fx-border-color: red;");
+            IO.println("Give amount as integer or decimal: " + e.getMessage());
+            return;
+        }
+
+        if(ingredientName == null || ingredientName.isBlank()){
+            addingredientTxt.clear();
+            addingredientTxt.setStyle("-fx-border-color: red;");
+            return;
+        }
+
+        ingredient.setUnit(addUnitCombo.getValue());
+        addingredientTxt.clear();
+        addAmountTxt.clear();
+        recipe.addItem(ingredient);
+        editRecipeTable.setStyle("");
     }
 }
 

@@ -99,7 +99,6 @@ public class NewRecipeController implements Initializable {
     private void handleSaveAndAddBtn(ActionEvent event) throws Exception{
 
         if(!ValidateRecipe()){
-            returnToMainView(event);
             return;
         }
 
@@ -114,35 +113,14 @@ public class NewRecipeController implements Initializable {
     }
 
     /**
-     * Creates new ListItem as ingredient to Recipe with input from
-     * TextFields and ComboBox if successful. Clears TextFields.
+     * Add Ingredient to Recipe
      * @param event addIngredientBtn
      */
     @SuppressWarnings("unused")
     @FXML
     private void handleAddIngredientBtn(ActionEvent event){
         Platform.runLater(ingredientTxt::requestFocus);
-        String ingredientName = ingredientTxt.getText();
-        ListItem ingredient = new ListItem(ingredientName, true);
-        double amount;
-
-        try{
-            amount = Double.parseDouble(amountTxt.getText());
-            ingredient.setAmount(amount);
-        } catch (Exception e) {
-            IO.println("Give amount as integer or decimal: " + e.getMessage());
-        }
-
-        if(ingredientName == null || ingredientName.isBlank()){
-            ingredientTxt.clear();
-            return;
-        }
-        ingredient.setUnit(unitCombo.getValue());
-
-        ingredientTxt.clear();
-        amountTxt.clear();
-
-        recipe.addItem(ingredient);
+        addIngredient();
     }
 
     /**
@@ -179,12 +157,15 @@ public class NewRecipeController implements Initializable {
         shoppingList.load();
 
         amountColumn.setCellValueFactory(cd -> cd.getValue().amountProperty().asObject());
+        amountColumn.setPrefWidth(50);
         unitColumn.setCellValueFactory(cd -> cd.getValue().unitProperty());
+        unitColumn.setPrefWidth(65);
         nameColumn.setCellValueFactory(cd -> cd.getValue().nameProperty());
+        nameColumn.setMinWidth(175);
         newRecipeTable.getColumns().addAll(amountColumn, unitColumn, nameColumn);
 
         unitCombo.setItems(FXCollections.observableArrayList(Unit.values()));
-        unitCombo.setValue(Unit.NULL);
+        unitCombo.setValue(Unit.UNIT);
         categoryCombo.setItems(FXCollections.observableArrayList(Category.values()));
         categoryCombo.setValue(Category.UNCATEGORIZED);
 
@@ -272,5 +253,38 @@ public class NewRecipeController implements Initializable {
         }
 
         return true;
+    }
+
+    /**
+     * Creates new ListItem as ingredient to Recipe with input from
+     * TextFields and ComboBox if successful. Clears TextFields.
+     */
+    public void addIngredient(){
+        String ingredientName = ingredientTxt.getText();
+        ListItem ingredient = new ListItem(ingredientName, true);
+        double amount;
+        amountTxt.setStyle("");
+        ingredientTxt.setStyle("");
+
+        try{
+            amount = Double.parseDouble(amountTxt.getText());
+            ingredient.setAmount(amount);
+        } catch (Exception e) {
+            amountTxt.setStyle("-fx-border-color: red;");
+            IO.println("Give amount as integer or decimal: " + e.getMessage());
+            return;
+        }
+
+        if(ingredientName == null || ingredientName.isBlank()){
+            ingredientTxt.clear();
+            ingredientTxt.setStyle("-fx-border-color: red;");
+            return;
+        }
+
+        ingredient.setUnit(unitCombo.getValue());
+        ingredientTxt.clear();
+        amountTxt.clear();
+        recipe.addItem(ingredient);
+        newRecipeTable.setStyle("");
     }
 }

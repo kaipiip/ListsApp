@@ -28,7 +28,7 @@ public class ListItem extends RecipeParent {
     /**
      * Ingredients unit of measure.
      */
-    private ObjectProperty<Unit> unit = new SimpleObjectProperty<>(Unit.NULL);
+    private ObjectProperty<Unit> unit = new SimpleObjectProperty<>(Unit.UNIT);
 
     public ListItem(){
     }

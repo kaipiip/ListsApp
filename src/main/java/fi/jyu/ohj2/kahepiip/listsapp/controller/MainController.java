@@ -185,7 +185,7 @@ public class MainController implements Initializable {
                 }
             }
         });
-        itemNameColumn.setPrefWidth(240);
+        itemNameColumn.setMinWidth(240);
 
 
         itemTable.getColumns().addAll(completedColumn, itemNameColumn);

@@ -16,6 +16,7 @@ import javafx.scene.control.cell.CheckBoxTreeCell;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class RecipeViewController implements Initializable {
@@ -204,10 +205,6 @@ public class RecipeViewController implements Initializable {
         } catch (IOException e){
             throw new RuntimeException(e);
         }
-    }
-
-    private void arrangeRecipes(Category category){
-
     }
 
     private void searchForRecipe(){
