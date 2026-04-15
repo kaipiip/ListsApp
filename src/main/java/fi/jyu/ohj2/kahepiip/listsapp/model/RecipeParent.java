@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public abstract class RecipeParent {
-    protected StringProperty name = new SimpleStringProperty();
+    protected final StringProperty name = new SimpleStringProperty();
 
     public void setName(String name){
         if(name.isBlank()){

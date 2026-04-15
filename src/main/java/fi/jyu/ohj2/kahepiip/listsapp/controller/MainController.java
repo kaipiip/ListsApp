@@ -4,7 +4,6 @@ import fi.jyu.ohj2.kahepiip.listsapp.App;
 import fi.jyu.ohj2.kahepiip.listsapp.model.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,13 +16,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.text.*;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
+@SuppressWarnings("ALL")
 public class MainController implements Initializable {
 
     @SuppressWarnings("unused")
@@ -195,11 +193,7 @@ public class MainController implements Initializable {
         itemTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-                    if(newValue == null){
-                        deleteItemBtn.setVisible(false);
-                    } else {
-                      deleteItemBtn.setVisible(true);
-                    }
+                    deleteItemBtn.setVisible(newValue != null);
                 });
 
         saveBtn.setDisable(true);

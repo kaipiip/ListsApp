@@ -22,7 +22,7 @@ public class ItemCollection implements Collections {
      * ObservableList for ListItems
      * Observes item's title and completion -properties
      */
-    private ObservableList<ListItem> items = FXCollections.observableArrayList(
+    private final ObservableList<ListItem> items = FXCollections.observableArrayList(
             item -> new Observable[]{
                     item.nameProperty(),
                     item.completionProperty()

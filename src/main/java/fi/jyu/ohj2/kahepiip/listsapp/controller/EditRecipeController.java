@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("ALL")
 public class EditRecipeController implements Initializable{
 
     @FXML
@@ -104,10 +105,11 @@ public class EditRecipeController implements Initializable{
         returnToRecipeView(event);
     }
 
-    private RecipeLibrary recipeLibrary = new RecipeLibrary();
-    private ItemCollection shoppingList = new ItemCollection();
+    private final RecipeLibrary recipeLibrary = new RecipeLibrary();
+    private final ItemCollection shoppingList = new ItemCollection();
     private Recipe recipe = new Recipe();
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         recipeLibrary.loadRecipes();
@@ -133,11 +135,7 @@ public class EditRecipeController implements Initializable{
         editRecipeTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-                    if(newValue == null){
-                        removeIngredientBtn.setVisible(false);
-                    } else {
-                        removeIngredientBtn.setVisible(true);
-                    }
+                    removeIngredientBtn.setVisible(newValue != null);
                 });
 
         // Clicking empty row clear's selection.

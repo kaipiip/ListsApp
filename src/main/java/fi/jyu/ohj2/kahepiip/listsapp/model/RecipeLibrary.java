@@ -1,7 +1,6 @@
 package fi.jyu.ohj2.kahepiip.listsapp.model;
 
 import javafx.beans.Observable;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -10,13 +9,12 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * RecipeLibrary-object. Library contains Recipe-objects
  */
+@SuppressWarnings("unused")
 public class RecipeLibrary {
     private Path library = Path.of("recipe-library.json");
     private final ObjectMapper mapper = new ObjectMapper();
@@ -24,7 +22,7 @@ public class RecipeLibrary {
     /**
      * ObservableList for Recipes. Observes Recipe-objects name and category -properties.
      */
-    private ObservableList<Recipe> recipes = FXCollections.observableArrayList(
+    private final ObservableList<Recipe> recipes = FXCollections.observableArrayList(
             recipe -> new Observable[]{
                     recipe.nameProperty(),
                     recipe.categoryProperty()
@@ -36,7 +34,7 @@ public class RecipeLibrary {
      * Changes are saved.
      */
     public RecipeLibrary(){
-        recipes.addListener((ListChangeListener<Recipe>) change -> {
+        recipes.addListener((ListChangeListener<Recipe>) _ -> {
             saveRecipes();
         });
     }
@@ -47,7 +45,7 @@ public class RecipeLibrary {
      */
     public RecipeLibrary(String path){
         this.library = Path.of(path);
-        recipes.addListener((ListChangeListener<Recipe>) change -> {
+        recipes.addListener((ListChangeListener<Recipe>) _ -> {
             saveRecipes();
         });
     }

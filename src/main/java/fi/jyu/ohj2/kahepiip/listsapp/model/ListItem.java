@@ -10,7 +10,7 @@ public class ListItem extends RecipeParent {
     /**
      * ListItem-object's completion status.
      */
-    private BooleanProperty completion = new SimpleBooleanProperty(false);
+    private final BooleanProperty completion = new SimpleBooleanProperty(false);
 
     /**
      * ListItem-objects status as ingredient or item.
@@ -23,12 +23,12 @@ public class ListItem extends RecipeParent {
     /**
      * Ingredient's amount.
      */
-    private DoubleProperty amount = new SimpleDoubleProperty();
+    private final DoubleProperty amount = new SimpleDoubleProperty();
 
     /**
      * Ingredients unit of measure.
      */
-    private ObjectProperty<Unit> unit = new SimpleObjectProperty<>(Unit.UNIT);
+    private final ObjectProperty<Unit> unit = new SimpleObjectProperty<>(Unit.UNIT);
 
     public ListItem(){
     }

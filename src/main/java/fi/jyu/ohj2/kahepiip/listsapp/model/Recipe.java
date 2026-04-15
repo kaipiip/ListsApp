@@ -23,13 +23,13 @@ public class Recipe extends RecipeParent implements Collections {
     /**
      * Recipe-object's category
      */
-    private ObjectProperty<Category> category = new SimpleObjectProperty<>();
+    private final ObjectProperty<Category> category = new SimpleObjectProperty<>();
 
     /**
      * ObservableList for Recipe's ingredients.
      * Observes ingredients title, completion, amount and unit -properties.
      */
-    private ObservableList<ListItem> ingredients = FXCollections.observableArrayList(
+    private final ObservableList<ListItem> ingredients = FXCollections.observableArrayList(
             ingredient -> new Observable[]{
                     ingredient.nameProperty(),
                     ingredient.completionProperty(),

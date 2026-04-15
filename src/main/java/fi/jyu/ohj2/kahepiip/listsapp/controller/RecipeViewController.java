@@ -3,7 +3,6 @@ package fi.jyu.ohj2.kahepiip.listsapp.controller;
 import fi.jyu.ohj2.kahepiip.listsapp.App;
 import fi.jyu.ohj2.kahepiip.listsapp.model.*;
 import javafx.collections.FXCollections;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,9 +15,9 @@ import javafx.scene.control.cell.CheckBoxTreeCell;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Comparator;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class RecipeViewController implements Initializable {
 
     @SuppressWarnings("unused")
@@ -104,8 +103,8 @@ public class RecipeViewController implements Initializable {
         currentScene.setRoot(mainView);
     }
 
-    private RecipeLibrary recipeLibrary = new RecipeLibrary();
-    private ItemCollection shoppingList = new ItemCollection();
+    private final RecipeLibrary recipeLibrary = new RecipeLibrary();
+    private final ItemCollection shoppingList = new ItemCollection();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -153,11 +152,7 @@ public class RecipeViewController implements Initializable {
         recipeTree.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-                    if(newValue == null || newValue.isLeaf()){
-                        removeBtn.setDisable(true);
-                    } else {
-                        removeBtn.setDisable(false);
-                    }
+                    removeBtn.setDisable(newValue == null || newValue.isLeaf());
                 });
 
         // Disables edit recipe -button, if branch not selected.
@@ -165,11 +160,7 @@ public class RecipeViewController implements Initializable {
         recipeTree.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-                    if(newValue == null || newValue.isLeaf()){
-                        editBtn.setDisable(true);
-                    } else {
-                        editBtn.setDisable(false);
-                    }
+                    editBtn.setDisable(newValue == null || newValue.isLeaf());
                 });
     }
 
