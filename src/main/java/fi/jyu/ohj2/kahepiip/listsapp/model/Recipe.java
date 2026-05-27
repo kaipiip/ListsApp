@@ -16,9 +16,10 @@ import java.util.List;
  * Recipe -object. Recipe contains it's name, category and an ObservableList of ingredients.
  */
 public class Recipe extends RecipeParent implements Collections {
+    /*------- ATTRIBUTES -------------------------------------------------------------------------------------------*/
     private Path path = Path.of("ingredient-list.json");
     private final ObjectMapper mapper = new ObjectMapper();
-    private SaveToJson<ListItem> saveFile;
+    private final SaveToJson<ListItem> saveFile;
 
     /**
      * Recipe-object's category
@@ -37,6 +38,7 @@ public class Recipe extends RecipeParent implements Collections {
                     ingredient.unitProperty()
             });
 
+    /*------- CONSTRUCTORS ---------------------------------------------------------------------------------------*/
     /**
      * new Recipe-object which contains listener for ingredient's properties.
      * Changes are saved.
@@ -54,14 +56,10 @@ public class Recipe extends RecipeParent implements Collections {
         saveFile = new SaveToJson<>(this.path, ingredients);
     }
 
-    public void setCategory(Category category){this.category.set(category);}
+    /*------- METHODS -------------------------------------------------------------------------------------------*/
+    /*------- GETTERS -------------------------------------------------------------------------------------*/
     public Category getCategory(){return category.get();}
     public ObjectProperty<Category> categoryProperty(){return category;}
-
-    @Override
-    public String toString(){
-        return getName();
-    }
 
     /**
      *
@@ -70,6 +68,9 @@ public class Recipe extends RecipeParent implements Collections {
     @Override
     public ObservableList<ListItem> getItems() {return this.ingredients;}
 
+    /*------- SETTERS -------------------------------------------------------------------------------------*/
+    public void setCategory(Category category){this.category.set(category);}
+
     /**
      * Sets parameter items to Recipe's ObservableList.
      * @param items List of ListItem-objects
@@ -77,6 +78,8 @@ public class Recipe extends RecipeParent implements Collections {
     @Override
     public void setItems(List<ListItem> items){this.ingredients.setAll(items);}
 
+
+    /*------- OTHERS -------------------------------------------------------------------------------------*/
     /**
      * Creates and adds new ingredient to Recipe.
      * @param title ingredient name
@@ -112,13 +115,10 @@ public class Recipe extends RecipeParent implements Collections {
         ingredients.remove(item);
     }
 
-//    /**
-//     * Saves ingredients to JSON-file: ingredient-list.json
-//     */
-//    @Override
-//    public void save() {
-//        mapper.writeValue(ingredientPath, ingredients);
-//    }
+    @Override
+    public String toString(){
+        return getName();
+    }
 
     /**
      * Reads JSON-file 'ingredient-list.json' and sets items to this Recipe-object's

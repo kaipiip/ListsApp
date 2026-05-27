@@ -2,9 +2,12 @@ package fi.jyu.ohj2.kahepiip.listsapp.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 
+/**
+ * Abstract parent-class for Lists.
+ */
 public abstract class RecipeParent {
+    /*------- ATTRIBUTES -------*/
     protected final StringProperty name = new SimpleStringProperty();
 
     /*------- SETTERS -------*/

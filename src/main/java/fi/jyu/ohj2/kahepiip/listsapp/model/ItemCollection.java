@@ -14,9 +14,10 @@ import java.util.List;
  * ItemCollection-object. Contains ObservableList of ListItems.
  */
 public class ItemCollection implements Collections {
+    /*------- ATTRIBUTES -------------------------------------------------------------------------------------------*/
     private Path path = Path.of("shopping-list.json");
     private final ObjectMapper mapper = new ObjectMapper();
-    private SaveToJson<ListItem> saveFile;
+    private final SaveToJson<ListItem> saveFile;
 
     /**
      * ObservableList for ListItems
@@ -28,6 +29,7 @@ public class ItemCollection implements Collections {
                     item.completionProperty()
             });
 
+    /*------- CONSTRUCTORS ---------------------------------------------------------------------------------------*/
     /**
      * New ItemCollection-object which contains listener for ObservableList's properties.
      * Changes are saved.
@@ -45,6 +47,8 @@ public class ItemCollection implements Collections {
         saveFile = new SaveToJson<>(this.path, items);
     }
 
+    /*------- METHODS -------------------------------------------------------------------------------------------*/
+    /*------- GETTERS -------------------------------------------------------------------------------------*/
     /**
      *
      * @return ListItems as ObservableList
@@ -52,6 +56,7 @@ public class ItemCollection implements Collections {
     @Override
     public ObservableList<ListItem> getItems() {return this.items;}
 
+    /*------- SETTERS -------------------------------------------------------------------------------------*/
     /**
      * Sets List of ListItems to ItemCollection's ObservableList
      * @param items List of ListItems
@@ -59,6 +64,7 @@ public class ItemCollection implements Collections {
     @Override
     public void setItems(List<ListItem> items){this.items.setAll(items);}
 
+    /*------- OTHERS -------------------------------------------------------------------------------------*/
     /**
      * Creates new ListItem and adds it to this ItemCollection.
      * @param title ListItem title
@@ -90,14 +96,6 @@ public class ItemCollection implements Collections {
         }
         items.remove(item);
     }
-
-//    /**
-//     * Saves ListItems to JSON-file: shopping-list.json
-//     */
-//    @Override
-//    public void save() {
-//        mapper.writeValue(path, items);
-//    }
 
     /**
      * Reads JSON-file 'shopping-list.json' and sets items to this ItemCollection's

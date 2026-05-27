@@ -27,11 +27,6 @@ public interface Collections {
      */
     void removeItem(ListItem item);
 
-//    /**
-//     * Save items to JSON-file.
-//     */
-//    void save();
-
     /**
      * Read and set items from JSON-file.
      */
@@ -48,6 +43,4 @@ public interface Collections {
      * @param items List of ListItems
      */
     void setItems(List<ListItem> items);
-
-
 }

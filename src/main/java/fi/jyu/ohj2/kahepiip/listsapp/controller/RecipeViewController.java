@@ -78,7 +78,15 @@ public class RecipeViewController implements Initializable {
     @SuppressWarnings("unused")
     @FXML
     private void handleNewRecipeBtn(ActionEvent event) throws Exception{
-        Parent recipeView = FXMLLoader.load(App.class.getResource("newRecipeView.fxml"));
+        Parent recipeView;
+
+        try{
+            recipeView = FXMLLoader.load(App.class.getResource("newRecipeView.fxml"));
+        } catch (NullPointerException e) {
+            IO.println(e.getMessage());
+            return;
+        }
+
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.setRoot(recipeView);
     }
@@ -98,7 +106,15 @@ public class RecipeViewController implements Initializable {
     @SuppressWarnings("unused")
     @FXML
     private void handleReturnBtn(ActionEvent event) throws Exception{
-        Parent mainView = FXMLLoader.load(App.class.getResource("main.fxml"));
+        Parent mainView;
+
+        try{
+            mainView = FXMLLoader.load(App.class.getResource("main.fxml"));
+        } catch (NullPointerException e){
+            IO.println(e.getMessage());
+            return;
+        }
+
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.setRoot(mainView);
     }
@@ -129,7 +145,7 @@ public class RecipeViewController implements Initializable {
 
                 cbIngredient = new CheckBoxTreeItem<>(ingredient);
                 cbRecipe.getChildren().add(cbIngredient);
-                cbIngredient.selectedProperty().addListener((observable, oldValue, newValue)-> {
+                cbIngredient.selectedProperty().addListener((_, oldValue, newValue)-> {
                     // CheckBox listener for adding checked ingredients to shopping list.
                     if(newValue == true){
                         shoppingList.addItem(item);
@@ -151,7 +167,7 @@ public class RecipeViewController implements Initializable {
         removeBtn.setDisable(true);
         recipeTree.getSelectionModel()
                 .selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
+                .addListener((_, _, newValue) -> {
                     removeBtn.setDisable(newValue == null || newValue.isLeaf());
                 });
 
@@ -159,7 +175,7 @@ public class RecipeViewController implements Initializable {
         editBtn.setDisable(true);
         recipeTree.getSelectionModel()
                 .selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
+                .addListener((_, _, newValue) -> {
                     editBtn.setDisable(newValue == null || newValue.isLeaf());
                 });
     }

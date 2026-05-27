@@ -15,9 +15,10 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public class RecipeLibrary extends RecipeParent {
+    /*------- ATTRIBUTES -------------------------------------------------------------------------------------------*/
     private Path library = Path.of("recipe-library.json");
     private final ObjectMapper mapper = new ObjectMapper();
-    private SaveToJson<Recipe> saveFile;
+    private final SaveToJson<Recipe> saveFile;
 
     /**
      * ObservableList for Recipes. Observes Recipe-objects name and category -properties.
@@ -29,6 +30,7 @@ public class RecipeLibrary extends RecipeParent {
             }
     );
 
+    /*------- CONSTRUCTORS ---------------------------------------------------------------------------------------*/
     /**
      * New RecipeLibrary-object which contains listener for Recipe's properties.
      * Changes are saved.
@@ -46,6 +48,8 @@ public class RecipeLibrary extends RecipeParent {
         saveFile = new SaveToJson<>(this.library, recipes);
     }
 
+    /*------- METHODS -------------------------------------------------------------------------------------------*/
+    /*------- GETTERS ----------------------------------------------------------------------------------*/
     /**
      *
      * @return Recipe-objects as ObservableList
@@ -53,11 +57,28 @@ public class RecipeLibrary extends RecipeParent {
     public ObservableList<Recipe> getRecipes() {return this.recipes;}
 
     /**
+     * Finds specified Recipe Object, that matches RecipeParent
+     * nameProperty.
+     * @param recipe RecipeParent that's name is used as keyword
+     * @return Recipe with same name as parameter's.
+     */
+    public Recipe getRecipe(RecipeParent recipe){
+        for(Recipe r : recipes){
+            if(r.getName().equals(recipe.getName())){
+                return r;
+            }
+        }
+        return null;
+    }
+
+    /*------- SETTERS --------------------------------------------------------------------------------*/
+    /**
      * Sets a list of Recipes to RecipeLibrary's ObservableList.
      * @param recipes List of Recipes.
      */
     public void setRecipes(List<Recipe> recipes) {this.recipes.setAll(recipes);}
 
+    /*------- OTHERS --------------------------------------------------------------------------------*/
     /**
      * Adds specified recipe to RecipeLibrary.
      * @param recipe Recipe-object
@@ -80,25 +101,7 @@ public class RecipeLibrary extends RecipeParent {
         recipes.remove(recipe);
     }
 
-    /**
-     * Finds specified Recipe Object, that matches RecipeParent
-     * nameProperty.
-     * @param recipe RecipeParent that's name is used as keyword
-     * @return Recipe with same name as parameter's.
-     */
-    public Recipe getRecipe(RecipeParent recipe){
-        for(Recipe r : recipes){
-            if(r.getName().equals(recipe.getName())){
-                return r;
-            }
-        }
-        return null;
-    }
 
-//    /**
-//     * Saves Recipes to JSON-file: recipe-library.json
-//     */
-//    public void saveRecipes(){mapper.writeValue(library, recipes);}
 
     /**
      * Reads JSON-file 'recipe-library.json' and sets items to this RecipeLibrary's

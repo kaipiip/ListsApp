@@ -6,7 +6,7 @@ import javafx.beans.property.*;
  * ListItem-object with title, completion, amount and unit-properties.
  */
 public class ListItem extends RecipeParent {
-
+    /*------- ATTRIBUTES -------------------------------------------------------------------------------------------*/
     /**
      * ListItem-object's completion status.
      */
@@ -18,18 +18,19 @@ public class ListItem extends RecipeParent {
      * True = ingredient.
      */
     private boolean ingredient = false;
-    // Following properties apply only to items which have ingredient value true.
 
+    /* Following properties apply only to items which have ingredient value true.*/
     /**
      * Ingredient's amount.
      */
     private final DoubleProperty amount = new SimpleDoubleProperty();
 
     /**
-     * Ingredients unit of measure.
+     * Ingredient's unit of measure.
      */
     private final ObjectProperty<Unit> unit = new SimpleObjectProperty<>(Unit.UNIT);
 
+    /*------- CONSTRUCTORS ---------------------------------------------------------------------------------------*/
     public ListItem(){
     }
 
@@ -51,15 +52,12 @@ public class ListItem extends RecipeParent {
         this.ingredient = ingredient;
     }
 
-    public void setCompletion(boolean completion) {this.completion.set(completion);}
+    /*------- METHODS -------------------------------------------------------------------------------------------*/
+    /*------- GETTERS -------------------------------------------------------------------------------------*/
     public boolean getCompletion() {return this.completion.get();}
     public BooleanProperty completionProperty() {return this.completion;}
-
-    public void setAmount(double amount) {this.amount.set(amount);}
     public double getAmount() {return this.amount.get();}
     public DoubleProperty amountProperty() {return this.amount;}
-
-    public void setUnit(Unit unit) {this.unit.set(unit);}
     public Unit getUnit() {return this.unit.get();}
     public ObjectProperty<Unit> unitProperty(){return this.unit;}
 
@@ -69,11 +67,18 @@ public class ListItem extends RecipeParent {
      */
     public boolean isIngredient() {return ingredient;}
 
+    /*------- SETTERS -------------------------------------------------------------------------------------*/
+    public void setCompletion(boolean completion) {this.completion.set(completion);}
+    public void setAmount(double amount) {this.amount.set(amount);}
+    public void setUnit(Unit unit) {this.unit.set(unit);}
+
     /**
      * Sets ListItem's ingredient status
      * @param ingredient ListItem is/isn't an ingredient
      */
     public void setIngredient(boolean ingredient){this.ingredient = ingredient;}
+
+    /*------- OTHERS -------------------------------------------------------------------------------------*/
 
     /**
      * Object variables to String.
