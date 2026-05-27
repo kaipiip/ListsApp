@@ -183,8 +183,6 @@ public class RecipeViewController implements Initializable {
             return;
         }
         RecipeParent recipeP = chosenRecipe.getValue();
-        // Save ingredients for flatMapping.
-        recipeLibrary.getRecipe(recipeP).save();
 
         try{
             FXMLLoader loader = new FXMLLoader(App.class.getResource("editRecipe.fxml"));

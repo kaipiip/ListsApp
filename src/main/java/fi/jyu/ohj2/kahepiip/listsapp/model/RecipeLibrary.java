@@ -2,7 +2,6 @@ package fi.jyu.ohj2.kahepiip.listsapp.model;
 
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
@@ -15,9 +14,10 @@ import java.util.List;
  * RecipeLibrary-object. Library contains Recipe-objects
  */
 @SuppressWarnings("unused")
-public class RecipeLibrary {
+public class RecipeLibrary extends RecipeParent {
     private Path library = Path.of("recipe-library.json");
     private final ObjectMapper mapper = new ObjectMapper();
+    private SaveToJson<Recipe> saveFile;
 
     /**
      * ObservableList for Recipes. Observes Recipe-objects name and category -properties.
@@ -34,9 +34,7 @@ public class RecipeLibrary {
      * Changes are saved.
      */
     public RecipeLibrary(){
-        recipes.addListener((ListChangeListener<Recipe>) _ -> {
-            saveRecipes();
-        });
+        saveFile = new SaveToJson<>(library, recipes);
     }
 
     /**
@@ -45,9 +43,7 @@ public class RecipeLibrary {
      */
     public RecipeLibrary(String path){
         this.library = Path.of(path);
-        recipes.addListener((ListChangeListener<Recipe>) _ -> {
-            saveRecipes();
-        });
+        saveFile = new SaveToJson<>(this.library, recipes);
     }
 
     /**
@@ -99,10 +95,10 @@ public class RecipeLibrary {
         return null;
     }
 
-    /**
-     * Saves Recipes to JSON-file: recipe-library.json
-     */
-    public void saveRecipes(){mapper.writeValue(library, recipes);}
+//    /**
+//     * Saves Recipes to JSON-file: recipe-library.json
+//     */
+//    public void saveRecipes(){mapper.writeValue(library, recipes);}
 
     /**
      * Reads JSON-file 'recipe-library.json' and sets items to this RecipeLibrary's

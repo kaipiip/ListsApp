@@ -2,7 +2,6 @@ package fi.jyu.ohj2.kahepiip.listsapp.model;
 
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
@@ -17,6 +16,7 @@ import java.util.List;
 public class ItemCollection implements Collections {
     private Path path = Path.of("shopping-list.json");
     private final ObjectMapper mapper = new ObjectMapper();
+    private SaveToJson<ListItem> saveFile;
 
     /**
      * ObservableList for ListItems
@@ -33,9 +33,7 @@ public class ItemCollection implements Collections {
      * Changes are saved.
      */
     public ItemCollection(){
-            items.addListener((ListChangeListener<ListItem>) change -> {
-                save();
-            });
+            saveFile = new SaveToJson<>(path, items);
     }
 
     /**
@@ -44,9 +42,7 @@ public class ItemCollection implements Collections {
      */
     public ItemCollection(String path){
         this.path = Path.of(path);
-        items.addListener((ListChangeListener<ListItem>) change -> {
-            save();
-        });
+        saveFile = new SaveToJson<>(this.path, items);
     }
 
     /**
@@ -95,13 +91,13 @@ public class ItemCollection implements Collections {
         items.remove(item);
     }
 
-    /**
-     * Saves ListItems to JSON-file: shopping-list.json
-     */
-    @Override
-    public void save() {
-        mapper.writeValue(path, items);
-    }
+//    /**
+//     * Saves ListItems to JSON-file: shopping-list.json
+//     */
+//    @Override
+//    public void save() {
+//        mapper.writeValue(path, items);
+//    }
 
     /**
      * Reads JSON-file 'shopping-list.json' and sets items to this ItemCollection's

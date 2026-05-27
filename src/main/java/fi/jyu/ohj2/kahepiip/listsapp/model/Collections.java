@@ -27,10 +27,10 @@ public interface Collections {
      */
     void removeItem(ListItem item);
 
-    /**
-     * Save items to JSON-file.
-     */
-    void save();
+//    /**
+//     * Save items to JSON-file.
+//     */
+//    void save();
 
     /**
      * Read and set items from JSON-file.

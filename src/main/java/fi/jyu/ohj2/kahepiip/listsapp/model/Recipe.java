@@ -3,7 +3,6 @@ package fi.jyu.ohj2.kahepiip.listsapp.model;
 import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
@@ -17,8 +16,9 @@ import java.util.List;
  * Recipe -object. Recipe contains it's name, category and an ObservableList of ingredients.
  */
 public class Recipe extends RecipeParent implements Collections {
-    private Path ingredientPath = Path.of("ingredient-list.json");
+    private Path path = Path.of("ingredient-list.json");
     private final ObjectMapper mapper = new ObjectMapper();
+    private SaveToJson<ListItem> saveFile;
 
     /**
      * Recipe-object's category
@@ -42,9 +42,7 @@ public class Recipe extends RecipeParent implements Collections {
      * Changes are saved.
      */
     public Recipe(){
-        ingredients.addListener((ListChangeListener<ListItem>) change -> {
-            save();
-        });
+        saveFile = new SaveToJson<>(path, ingredients);
     }
 
     /**
@@ -52,10 +50,8 @@ public class Recipe extends RecipeParent implements Collections {
      * @param path path to test JSON -file
      */
     public Recipe(String path){
-        this.ingredientPath = Path.of(path);
-        ingredients.addListener((ListChangeListener<ListItem>) change -> {
-            save();
-        });
+        this.path = Path.of(path);
+        saveFile = new SaveToJson<>(this.path, ingredients);
     }
 
     public void setCategory(Category category){this.category.set(category);}
@@ -116,13 +112,13 @@ public class Recipe extends RecipeParent implements Collections {
         ingredients.remove(item);
     }
 
-    /**
-     * Saves ingredients to JSON-file: ingredient-list.json
-     */
-    @Override
-    public void save() {
-        mapper.writeValue(ingredientPath, ingredients);
-    }
+//    /**
+//     * Saves ingredients to JSON-file: ingredient-list.json
+//     */
+//    @Override
+//    public void save() {
+//        mapper.writeValue(ingredientPath, ingredients);
+//    }
 
     /**
      * Reads JSON-file 'ingredient-list.json' and sets items to this Recipe-object's
@@ -130,11 +126,11 @@ public class Recipe extends RecipeParent implements Collections {
      */
     @Override
     public void load() {
-        if(Files.notExists(ingredientPath)){
+        if(Files.notExists(path)){
             return;
         }
         try {
-            ListItem[] allIngredients = mapper.readValue(ingredientPath.toFile(), ListItem[].class);
+            ListItem[] allIngredients = mapper.readValue(path.toFile(), ListItem[].class);
             ingredients.setAll(allIngredients);
         }catch (JacksonException e){
             IO.println("Failed to read JSON-file: " + e.getMessage());
