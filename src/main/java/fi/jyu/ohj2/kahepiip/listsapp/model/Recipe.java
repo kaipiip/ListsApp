@@ -16,7 +16,7 @@ import java.util.List;
  * Recipe -object. Recipe contains it's name, category and an ObservableList of ingredients.
  */
 public class Recipe extends RecipeParent implements Collections {
-    /*------- ATTRIBUTES -------------------------------------------------------------------------------------------*/
+    /*------- ATTRIBUTES -------*/
     private Path path = Path.of("ingredient-list.json");
     private final ObjectMapper mapper = new ObjectMapper();
     private final SaveToJson<ListItem> saveFile;
@@ -38,7 +38,7 @@ public class Recipe extends RecipeParent implements Collections {
                     ingredient.unitProperty()
             });
 
-    /*------- CONSTRUCTORS ---------------------------------------------------------------------------------------*/
+    /*------- CONSTRUCTORS -------*/
     /**
      * new Recipe-object which contains listener for ingredient's properties.
      * Changes are saved.
@@ -56,8 +56,8 @@ public class Recipe extends RecipeParent implements Collections {
         saveFile = new SaveToJson<>(this.path, ingredients);
     }
 
-    /*------- METHODS -------------------------------------------------------------------------------------------*/
-    /*------- GETTERS -------------------------------------------------------------------------------------*/
+    /*------- METHODS ----------*/
+    /*------- GETTERS -------*/
     public Category getCategory(){return category.get();}
     public ObjectProperty<Category> categoryProperty(){return category;}
 
@@ -68,7 +68,13 @@ public class Recipe extends RecipeParent implements Collections {
     @Override
     public ObservableList<ListItem> getItems() {return this.ingredients;}
 
-    /*------- SETTERS -------------------------------------------------------------------------------------*/
+    /**
+     *
+     * @return Object path to json-file.
+     */
+    public Path getPath() {return this.path;}
+
+    /*------- SETTERS -------*/
     public void setCategory(Category category){this.category.set(category);}
 
     /**
@@ -79,7 +85,7 @@ public class Recipe extends RecipeParent implements Collections {
     public void setItems(List<ListItem> items){this.ingredients.setAll(items);}
 
 
-    /*------- OTHERS -------------------------------------------------------------------------------------*/
+    /*------- OTHERS -------*/
     /**
      * Creates and adds new ingredient to Recipe.
      * @param title ingredient name
@@ -120,20 +126,20 @@ public class Recipe extends RecipeParent implements Collections {
         return getName();
     }
 
-    /**
-     * Reads JSON-file 'ingredient-list.json' and sets items to this Recipe-object's
-     * ObservableList.
-     */
-    @Override
-    public void load() {
-        if(Files.notExists(path)){
-            return;
-        }
-        try {
-            ListItem[] allIngredients = mapper.readValue(path.toFile(), ListItem[].class);
-            ingredients.setAll(allIngredients);
-        }catch (JacksonException e){
-            IO.println("Failed to read JSON-file: " + e.getMessage());
-        }
-    }
+//    /**
+//     * Reads JSON-file 'ingredient-list.json' and sets items to this Recipe-object's
+//     * ObservableList.
+//     */
+//    @Override
+//    public void load() {
+//        if(Files.notExists(path)){
+//            return;
+//        }
+//        try {
+//            ListItem[] allIngredients = mapper.readValue(path.toFile(), ListItem[].class);
+//            ingredients.setAll(allIngredients);
+//        }catch (JacksonException e){
+//            IO.println("Failed to read JSON-file: " + e.getMessage());
+//        }
+//    }
 }

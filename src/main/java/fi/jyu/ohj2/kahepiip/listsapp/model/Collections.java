@@ -27,10 +27,10 @@ public interface Collections {
      */
     void removeItem(ListItem item);
 
-    /**
-     * Read and set items from JSON-file.
-     */
-    void load();
+//    /**
+//     * Read and set items from JSON-file.
+//     */
+//    void load();
 
     /**
      *

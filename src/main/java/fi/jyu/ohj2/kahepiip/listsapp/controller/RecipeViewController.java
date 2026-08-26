@@ -121,11 +121,13 @@ public class RecipeViewController implements Initializable {
 
     private final RecipeLibrary recipeLibrary = new RecipeLibrary();
     private final ItemCollection shoppingList = new ItemCollection();
+    private LoadFromJson l = new LoadFromJson<>(recipeLibrary.getPath());
+    private LoadFromJson s = new LoadFromJson<>(shoppingList.getPath());
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        recipeLibrary.loadRecipes();
-        shoppingList.load();
+        l.loadLibrary(recipeLibrary);
+        s.loadListItems(shoppingList);
         libraryRoot = new TreeItem<>();
 
         /*

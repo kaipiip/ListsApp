@@ -6,7 +6,7 @@ import javafx.beans.property.*;
  * ListItem-object with title, completion, amount and unit-properties.
  */
 public class ListItem extends RecipeParent {
-    /*------- ATTRIBUTES -------------------------------------------------------------------------------------------*/
+    /*------- ATTRIBUTES -------*/
     /**
      * ListItem-object's completion status.
      */
@@ -30,7 +30,7 @@ public class ListItem extends RecipeParent {
      */
     private final ObjectProperty<Unit> unit = new SimpleObjectProperty<>(Unit.UNIT);
 
-    /*------- CONSTRUCTORS ---------------------------------------------------------------------------------------*/
+    /*------- CONSTRUCTORS -------*/
     public ListItem(){
     }
 
@@ -52,8 +52,8 @@ public class ListItem extends RecipeParent {
         this.ingredient = ingredient;
     }
 
-    /*------- METHODS -------------------------------------------------------------------------------------------*/
-    /*------- GETTERS -------------------------------------------------------------------------------------*/
+    /*------- METHODS ----------*/
+    /*------- GETTERS -------*/
     public boolean getCompletion() {return this.completion.get();}
     public BooleanProperty completionProperty() {return this.completion;}
     public double getAmount() {return this.amount.get();}
@@ -67,7 +67,7 @@ public class ListItem extends RecipeParent {
      */
     public boolean isIngredient() {return ingredient;}
 
-    /*------- SETTERS -------------------------------------------------------------------------------------*/
+    /*------- SETTERS -------*/
     public void setCompletion(boolean completion) {this.completion.set(completion);}
     public void setAmount(double amount) {this.amount.set(amount);}
     public void setUnit(Unit unit) {this.unit.set(unit);}
@@ -78,7 +78,7 @@ public class ListItem extends RecipeParent {
      */
     public void setIngredient(boolean ingredient){this.ingredient = ingredient;}
 
-    /*------- OTHERS -------------------------------------------------------------------------------------*/
+    /*------- OTHERS -------*/
 
     /**
      * Object variables to String.

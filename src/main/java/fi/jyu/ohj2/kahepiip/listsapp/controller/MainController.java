@@ -210,7 +210,10 @@ public class MainController implements Initializable {
             return row;
         });
 
-        shoppingList.load();
+        LoadFromJson load = new LoadFromJson(shoppingList.getPath());
+        load.loadListItems(shoppingList);
+
+        //shoppingList.load();
     }
 
     /**

@@ -11,12 +11,12 @@ import java.nio.file.Path;
  * @param <T> ListItem or Recipe
  */
 public class SaveToJson<T> {
-    /*------- ATTRIBUTES -------------------------------------------------------------------------------------------*/
+    /*------- ATTRIBUTES -------*/
     private final Path path;
     private final ObservableList<T> list;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    /*------- CONSTRUCTORS ---------------------------------------------------------------------------------------*/
+    /*------- CONSTRUCTORS -------*/
 
     /**
      * Object saves changes in the list given as parameter, to given path of json-file.
@@ -31,7 +31,7 @@ public class SaveToJson<T> {
         });
     }
 
-    /*------- METHODS -------------------------------------------------------------------------------------------*/
+    /*------- METHODS -------*/
 
     /**
      * Method for saving observable lists.

@@ -3,10 +3,8 @@ package fi.jyu.ohj2.kahepiip.listsapp.model;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -15,8 +13,8 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public class RecipeLibrary extends RecipeParent {
-    /*------- ATTRIBUTES -------------------------------------------------------------------------------------------*/
-    private Path library = Path.of("recipe-library.json");
+    /*------- ATTRIBUTES -------*/
+    private Path path = Path.of("recipe-library.json");
     private final ObjectMapper mapper = new ObjectMapper();
     private final SaveToJson<Recipe> saveFile;
 
@@ -30,13 +28,13 @@ public class RecipeLibrary extends RecipeParent {
             }
     );
 
-    /*------- CONSTRUCTORS ---------------------------------------------------------------------------------------*/
+    /*------- CONSTRUCTORS -------*/
     /**
      * New RecipeLibrary-object which contains listener for Recipe's properties.
      * Changes are saved.
      */
     public RecipeLibrary(){
-        saveFile = new SaveToJson<>(library, recipes);
+        saveFile = new SaveToJson<>(path, recipes);
     }
 
     /**
@@ -44,12 +42,12 @@ public class RecipeLibrary extends RecipeParent {
      * @param path path to test JSON -file
      */
     public RecipeLibrary(String path){
-        this.library = Path.of(path);
-        saveFile = new SaveToJson<>(this.library, recipes);
+        this.path = Path.of(path);
+        saveFile = new SaveToJson<>(this.path, recipes);
     }
 
-    /*------- METHODS -------------------------------------------------------------------------------------------*/
-    /*------- GETTERS ----------------------------------------------------------------------------------*/
+    /*------- METHODS ----------*/
+    /*------- GETTERS -------*/
     /**
      *
      * @return Recipe-objects as ObservableList
@@ -71,14 +69,20 @@ public class RecipeLibrary extends RecipeParent {
         return null;
     }
 
-    /*------- SETTERS --------------------------------------------------------------------------------*/
+    /**
+     *
+     * @return Object path to json-file.
+     */
+    public Path getPath() {return this.path;}
+
+    /*------- SETTERS -------*/
     /**
      * Sets a list of Recipes to RecipeLibrary's ObservableList.
      * @param recipes List of Recipes.
      */
     public void setRecipes(List<Recipe> recipes) {this.recipes.setAll(recipes);}
 
-    /*------- OTHERS --------------------------------------------------------------------------------*/
+    /*------- OTHERS --------*/
     /**
      * Adds specified recipe to RecipeLibrary.
      * @param recipe Recipe-object
@@ -103,19 +107,19 @@ public class RecipeLibrary extends RecipeParent {
 
 
 
-    /**
-     * Reads JSON-file 'recipe-library.json' and sets items to this RecipeLibrary's
-     * ObservableList.
-     */
-    public void loadRecipes() {
-        if(Files.notExists(library)){
-            return;
-        }
-        try {
-            Recipe[] r = mapper.readValue(library.toFile(), Recipe[].class);
-            recipes.setAll(r);
-        }catch (JacksonException e){
-            IO.println("Failed to read JSON-file: " + e.getMessage());
-        }
-    }
+//    /**
+//     * Reads JSON-file 'recipe-library.json' and sets items to this RecipeLibrary's
+//     * ObservableList.
+//     */
+//    public void loadRecipes() {
+//        if(Files.notExists(library)){
+//            return;
+//        }
+//        try {
+//            Recipe[] r = mapper.readValue(library.toFile(), Recipe[].class);
+//            recipes.setAll(r);
+//        }catch (JacksonException e){
+//            IO.println("Failed to read JSON-file: " + e.getMessage());
+//        }
+//    }
 }

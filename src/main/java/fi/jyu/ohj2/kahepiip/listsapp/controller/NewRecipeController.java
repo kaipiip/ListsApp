@@ -104,7 +104,7 @@ public class NewRecipeController implements Initializable {
         }
 
         Recipe conveyList = new Recipe();
-        conveyList.load();
+        r.loadRecipe(conveyList);
         conveyList.getItems()
                 .forEach(item ->
                         shoppingList.addItem(item.toString()));
@@ -149,13 +149,18 @@ public class NewRecipeController implements Initializable {
     private final Recipe recipe = new Recipe();
     private final RecipeLibrary recipeLibrary = new RecipeLibrary();
     private final ItemCollection shoppingList = new ItemCollection();
+    private LoadFromJson l = new LoadFromJson<>(recipeLibrary.getPath());
+    private LoadFromJson r = new LoadFromJson<>(recipe.getPath());
+    private LoadFromJson s = new LoadFromJson<>(shoppingList.getPath());
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        recipeLibrary.loadRecipes();
+        l.loadLibrary(recipeLibrary);
+        s.loadListItems(shoppingList);
+        // recipeLibrary.loadRecipes();
         recipeNameTxt.requestFocus();
         newRecipeTable.setItems(recipe.getItems());
-        shoppingList.load();
+        // shoppingList.load();
 
         amountColumn.setCellValueFactory(cd -> cd.getValue().amountProperty().asObject());
         amountColumn.setPrefWidth(50);
@@ -178,7 +183,7 @@ public class NewRecipeController implements Initializable {
                     deleteIngredientBtn.setVisible(newValue != null);
                 });
 
-        // Clicking empty row clear's selection.
+        // Clicking empty row clears selection.
         newRecipeTable.setRowFactory(tv -> {
             TableRow<ListItem> row = new TableRow<>();
             row.setOnMouseClicked(event -> {

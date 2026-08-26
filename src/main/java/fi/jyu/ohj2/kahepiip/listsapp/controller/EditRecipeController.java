@@ -86,7 +86,7 @@ public class EditRecipeController implements Initializable{
         }
 
         Recipe conveyList = new Recipe();
-        conveyList.load(); // Loads last saved ingredients from ingredient-list.json
+        r.loadRecipe(conveyList); // Loads last saved ingredients from ingredient-list.json
         conveyList.getItems()
                 .forEach(item ->
                         shoppingList.addItem(item.toString()));
@@ -108,14 +108,17 @@ public class EditRecipeController implements Initializable{
     private final RecipeLibrary recipeLibrary = new RecipeLibrary();
     private final ItemCollection shoppingList = new ItemCollection();
     private Recipe recipe = new Recipe();
+    private LoadFromJson r = new LoadFromJson<>(recipe.getPath());
+    private LoadFromJson s = new LoadFromJson<>(shoppingList.getPath());
 
     @SuppressWarnings("unchecked")
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        recipeLibrary.loadRecipes();
+        r.loadRecipe(recipe);
+        s.loadListItems(shoppingList);
+
         editNameTxt.requestFocus();
         editRecipeTable.setItems(recipe.getItems());
-        shoppingList.load();
 
         amountColumn.setCellValueFactory(cd -> cd.getValue().amountProperty().asObject());
         amountColumn.setPrefWidth(50);
