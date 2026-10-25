@@ -13,7 +13,7 @@ public interface Collections {
      * Creates and adds item to collection.
      * @param title item title
      */
-    void addItem(String title);
+    void createAndAddItem(String title);
 
     /**
      * Adds specified item to collection

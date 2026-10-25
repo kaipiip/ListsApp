@@ -3,10 +3,7 @@ package fi.jyu.ohj2.kahepiip.listsapp.model;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import tools.jackson.core.JacksonException;
-import tools.jackson.databind.ObjectMapper;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -16,7 +13,6 @@ import java.util.List;
 public class ItemCollection implements Collections {
     /*------- ATTRIBUTES -------*/
     private Path path = Path.of("shopping-list.json");
-    private final ObjectMapper mapper = new ObjectMapper();
     private final SaveToJson<ListItem> saveFile;
 
     /**
@@ -76,7 +72,7 @@ public class ItemCollection implements Collections {
      * @param title ListItem title
      */
     @Override
-    public void addItem(String title) {
+    public void createAndAddItem(String title) {
         String text = title.trim();
         if(text.isBlank()){
             return;

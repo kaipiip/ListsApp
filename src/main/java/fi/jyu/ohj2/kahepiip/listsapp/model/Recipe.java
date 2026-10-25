@@ -4,10 +4,8 @@ import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -18,7 +16,6 @@ import java.util.List;
 public class Recipe extends RecipeParent implements Collections {
     /*------- ATTRIBUTES -------*/
     private Path path = Path.of("ingredient-list.json");
-    private final ObjectMapper mapper = new ObjectMapper();
     private final SaveToJson<ListItem> saveFile;
 
     /**
@@ -91,7 +88,7 @@ public class Recipe extends RecipeParent implements Collections {
      * @param title ingredient name
      */
     @Override
-    public void addItem(String title) {
+    public void createAndAddItem(String title) {
         String text = title.trim();
         if(text.isBlank()){
             return;

@@ -1,0 +1,151 @@
+<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><element><id>UMLClass</id><coordinates><x>640</x><y>88</y><w>280</w><h>184</h></coordinates><panel_attributes>*ListBase*
+fg=#3e5912
+bg=#9cb376
+-
+- title: String
+- path: Path
+- items: ObservableList
+- saveFile: SaveToJson
+-
++ getTitle(): String
+- setTitle(new_title: String): Void
++ rename(new_title: String): Void
++ createAndAddItem(item_name: String): Void
++ addItem(item: ListItem): Void
++ removeItem(item: ListItem): Void
++ getItems(): ObservableList&lt;ListItem&gt;
++ setItems(items: ListItem [*]): Void
++ getPath(): Path
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1000</x><y>280</y><w>192</w><h>80</h></coordinates><panel_attributes>*SaveToJson*
+fg=#3e5912
+bg=#9cb376
+-
+/- path: Path/
+/- list: ObservableList&lt;T&gt;/
+- mapper: ObjectMapper
+-
+- save(): Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1000</x><y>200</y><w>192</w><h>72</h></coordinates><panel_attributes>*LoadFromJson*
+fg=#3e5912
+bg=#9cb376
+-
+/- path: Path/
+- mapper: ObjectMapper
+-
++ loadList(list: ListBase): ObservableList
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>512</x><y>504</y><w>272</w><h>104</h></coordinates><panel_attributes>*Recipe*
+fg=#3e5912
+bg=#9cb376
+-
+- category: Category
+-
+- addListeners(): Void
++ getCategory(): Category
++ getCategoryProperty(): ObjectProperty&lt;Category&gt;
++ setCategory(new_category: Category): Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>824</x><y>504</y><w>256</w><h>128</h></coordinates><panel_attributes>*ListItem*
+fg=#3e5912
+bg=#9cb376
+--
+- name: StringProperty
+- completion: BooleanProperty = false
+--
++ getName(): String
++ getNameProperty(): StringProperty
++ setName(new_name: String): Void
++ getCompletion(): Boolean
++ getCompletionProperty(): BooleanProperty
++ setCompletion(new_completion: Boolean): Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>512</x><y>688</y><w>112</w><h>152</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+*Unit*
+fg=#3e5912
+bg=#9cb376
+-
+G 
+KG
+ML
+DL
+L 
+TBSP
+TSP
+PORTION
+UNIT</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>512</x><y>384</y><w>112</w><h>112</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+*Category*
+fg=#3e5912
+bg=#9cb376
+-
+MEAL
+DESSERT
+BREAKFAST
+SNACK
+UNCATEGORIZED</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>896</x><y>264</y><w>80</w><h>256</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+fg=#3e5912
+m1=1
+m2=0..*
+m2pos=1,7
+m1pos=5,-5</panel_attributes><additional_attributes>10;10;10;60;60;60;60;300</additional_attributes></element><element><id>UMLClass</id><coordinates><x>632</x><y>688</y><w>288</w><h>152</h></coordinates><panel_attributes>*Ingredient*
+fg=#3e5912
+bg=#9cb376
+--
+- amount: DoubleProperty
+- unit: ObjectProperty
+--
++ getAmount(): Double
++ getAmountProperty(): DoubleProperty
++ getUnit(): Unit
++ getUnitProperty(): ObjectProperty&lt;Unit&gt;
++ setAmount(new_amount: Double): Void
++ setUnit(new_unit: Unit): Void
++ convertToListItem(): ListItem</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>864</x><y>624</y><w>24</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-
+fg=#3e5912
+</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>704</x><y>600</y><w>40</w><h>104</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+fg=#3e5912
+m1=1
+m2=0..*
+m2pos=1,7
+m1pos=0,7</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>UMLNote</id><coordinates><x>968</x><y>736</y><w>216</w><h>104</h></coordinates><panel_attributes>*As of now (10/2026) application uses:*
+Javafx (GUI)
+Jackson (library)
+MVC - architecture
+
+I'm in the process of developing the app 
+Android compatible (Android Studio / Kotlin).
+fg=#3e5912
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>992</x><y>88</y><w>200</w><h>56</h></coordinates><panel_attributes>Jackson library uses setItems() - method
+to set loaded items from json-file 
+to ObservableList.
+fg=#3e5912
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>816</x><y>120</y><w>192</w><h>144</h></coordinates><panel_attributes>lt=&lt;.
+fg=#3e5912
+</panel_attributes><additional_attributes>10;160;60;140;220;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1072</x><y>136</y><w>24</w><h>80</h></coordinates><panel_attributes>lt=&lt;.
+fg=#3e5912
+</panel_attributes><additional_attributes>10;80;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>712</x><y>424</y><w>40</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+fg=#3e5912
+m1=1
+m2=0..*
+m2pos=1,7
+m1pos=0,7</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>472</x><y>56</y><w>760</w><h>816</h></coordinates><panel_attributes>fg=#3e5912
+layer=-1
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>680</x><y>336</y><w>240</w><h>96</h></coordinates><panel_attributes>*ListLibrary*
+fg=#3e5912
+bg=#9cb376
+--
++ getLists(): ObservableList
++ findList(list_to_find: ListBase): ListBase
++ setLists(new_lists: ListBase): Void
++ addList(new_list: ListBase): Void
++ removeList(list: ListBase): Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>648</x><y>264</y><w>24</w><h>256</h></coordinates><panel_attributes>lt=&lt;&lt;-
+fg=#3e5912
+</panel_attributes><additional_attributes>10;10;10;300</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>264</y><w>24</w><h>88</h></coordinates><panel_attributes>lt=&lt;&lt;-
+fg=#3e5912
+</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>UMLNote</id><coordinates><x>968</x><y>672</y><w>216</w><h>48</h></coordinates><panel_attributes>Converts Ingredient to ListItem, 
+for coherent view and functionalities
+in app main view ("Today's shopping list").
+fg=#3e5912
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>776</x><y>704</y><w>208</w><h>128</h></coordinates><panel_attributes>lt=&lt;.
+fg=#3e5912
+</panel_attributes><additional_attributes>10;140;90;110;240;10</additional_attributes></element><element><id>Relation</id><coordinates><x>832</x><y>264</y><w>40</w><h>88</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+fg=#3e5912
+m1=1
+m2=0..*
+m2pos=-30,-7
+m1pos=-20,0</panel_attributes><additional_attributes>30;90;30;10</additional_attributes></element></diagram>

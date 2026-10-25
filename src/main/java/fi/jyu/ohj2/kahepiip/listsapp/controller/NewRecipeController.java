@@ -107,7 +107,7 @@ public class NewRecipeController implements Initializable {
         r.loadRecipe(conveyList);
         conveyList.getItems()
                 .forEach(item ->
-                        shoppingList.addItem(item.toString()));
+                        shoppingList.createAndAddItem(item.toString()));
 
         newRecipe();
         returnToMainView(event);

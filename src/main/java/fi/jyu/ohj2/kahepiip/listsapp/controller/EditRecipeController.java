@@ -89,7 +89,7 @@ public class EditRecipeController implements Initializable{
         r.loadRecipe(conveyList); // Loads last saved ingredients from ingredient-list.json
         conveyList.getItems()
                 .forEach(item ->
-                        shoppingList.addItem(item.toString()));
+                        shoppingList.createAndAddItem(item.toString()));
 
 
         saveEditedRecipe();
@@ -191,7 +191,7 @@ public class EditRecipeController implements Initializable{
         placeholder.setCategory(editCategoryCombo.getValue());
 
         // Remove old recipe and add new:
-        recipeLibrary.removeRecipe(recipeLibrary.getRecipe(recipe));
+        recipeLibrary.removeRecipe(recipeLibrary.findRecipe(recipe));
         recipeLibrary.addRecipe(placeholder);
     }
 

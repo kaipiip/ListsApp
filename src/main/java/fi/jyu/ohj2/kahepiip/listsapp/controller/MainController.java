@@ -228,7 +228,7 @@ public class MainController implements Initializable {
             itemTxt.clear();
             return;
         }
-        shoppingList.addItem(item);
+        shoppingList.createAndAddItem(item);
         itemTxt.clear();
     }
 

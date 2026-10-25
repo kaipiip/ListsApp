@@ -3,7 +3,6 @@ package fi.jyu.ohj2.kahepiip.listsapp.model;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import tools.jackson.databind.ObjectMapper;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.List;
 public class RecipeLibrary extends RecipeParent {
     /*------- ATTRIBUTES -------*/
     private Path path = Path.of("recipe-library.json");
-    private final ObjectMapper mapper = new ObjectMapper();
     private final SaveToJson<Recipe> saveFile;
 
     /**
@@ -60,7 +58,7 @@ public class RecipeLibrary extends RecipeParent {
      * @param recipe RecipeParent that's name is used as keyword
      * @return Recipe with same name as parameter's.
      */
-    public Recipe getRecipe(RecipeParent recipe){
+    public Recipe findRecipe(RecipeParent recipe){
         for(Recipe r : recipes){
             if(r.getName().equals(recipe.getName())){
                 return r;
@@ -105,21 +103,4 @@ public class RecipeLibrary extends RecipeParent {
         recipes.remove(recipe);
     }
 
-
-
-//    /**
-//     * Reads JSON-file 'recipe-library.json' and sets items to this RecipeLibrary's
-//     * ObservableList.
-//     */
-//    public void loadRecipes() {
-//        if(Files.notExists(library)){
-//            return;
-//        }
-//        try {
-//            Recipe[] r = mapper.readValue(library.toFile(), Recipe[].class);
-//            recipes.setAll(r);
-//        }catch (JacksonException e){
-//            IO.println("Failed to read JSON-file: " + e.getMessage());
-//        }
-//    }
 }

@@ -9,12 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RecipeAndItemCollectionTest {
 
     @Test
-    void addItemCorrectly(){
+    void createAndAddItemCorrectly(){
         Recipe recipe = new Recipe("test-ingredients.json");
-        recipe.addItem("egg");
+        recipe.createAndAddItem("egg");
 
         ItemCollection items = new ItemCollection("test-collection.json");
-        items.addItem("egg");
+        items.createAndAddItem("egg");
 
         assertEquals(1, recipe.getItems().size());
         assertEquals("egg", recipe.getItems().getFirst().getName());
@@ -26,12 +26,12 @@ public class RecipeAndItemCollectionTest {
     @Test
     void removeItemCorrectly(){
         Recipe recipe = new Recipe("test-ingredients.json");
-        recipe.addItem("egg");
+        recipe.createAndAddItem("egg");
         ListItem ingredient = recipe.getItems().getFirst();
         recipe.removeItem(ingredient);
 
         ItemCollection items = new ItemCollection("test-collection.json");
-        items.addItem("egg");
+        items.createAndAddItem("egg");
         ListItem item = items.getItems().getFirst();
         items.removeItem(item);
 
@@ -40,24 +40,24 @@ public class RecipeAndItemCollectionTest {
     }
 
     @Test
-    void addItem_notEmpty(){
+    void createAndAddItem_notEmpty(){
         Recipe recipe = new Recipe("test-ingredients.json");
-        recipe.addItem("    ");
+        recipe.createAndAddItem("    ");
 
         ItemCollection items = new ItemCollection("test-collection.json");
-        items.addItem("    ");
+        items.createAndAddItem("    ");
 
         assertEquals(0, recipe.getItems().size());
         assertEquals(0, items.getItems().size());
     }
 
     @Test
-    void addItem_Trimmed(){
+    void createAndAddItem_Trimmed(){
         Recipe recipe = new Recipe("test-ingredients.json");
-        recipe.addItem(" egg  ");
+        recipe.createAndAddItem(" egg  ");
 
         ItemCollection items = new ItemCollection("test-collection.json");
-        items.addItem("  egg  ");
+        items.createAndAddItem("  egg  ");
 
         assertEquals(1, recipe.getItems().size());
         assertEquals("egg", recipe.getItems().getFirst().getName());
@@ -67,14 +67,14 @@ public class RecipeAndItemCollectionTest {
     }
 
     @Test
-    void addItem_Duplicate(){
+    void createAndAddItem_Duplicate(){
         Recipe recipe = new Recipe("test-ingredients.json");
-        recipe.addItem("egg");
-        recipe.addItem("egg");
+        recipe.createAndAddItem("egg");
+        recipe.createAndAddItem("egg");
 
         ItemCollection items = new ItemCollection("test-collection.json");
-        items.addItem("egg");
-        items.addItem("egg");
+        items.createAndAddItem("egg");
+        items.createAndAddItem("egg");
 
         assertEquals(2, recipe.getItems().size());
         assertEquals("egg", recipe.getItems().getFirst().getName());
@@ -88,11 +88,11 @@ public class RecipeAndItemCollectionTest {
     @Test
     void setCompletionCorrectly(){
         Recipe recipe = new Recipe("test-ingredients.json");
-        recipe.addItem("egg");
+        recipe.createAndAddItem("egg");
         recipe.getItems().getFirst().setCompletion(true);
 
         ItemCollection items = new ItemCollection("test-collection.json");
-        items.addItem("egg");
+        items.createAndAddItem("egg");
         items.getItems().getFirst().setCompletion(true);
 
         assertTrue(recipe.getItems().getFirst().getCompletion());

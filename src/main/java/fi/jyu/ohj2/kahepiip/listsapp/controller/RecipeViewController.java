@@ -191,7 +191,7 @@ public class RecipeViewController implements Initializable {
             return;
         }
         RecipeParent recipeP = chosenRecipe.getValue();
-        recipeLibrary.removeRecipe(recipeLibrary.getRecipe(recipeP));
+        recipeLibrary.removeRecipe(recipeLibrary.findRecipe(recipeP));
         libraryRoot.getChildren().remove(chosenRecipe);
     }
 
@@ -207,7 +207,7 @@ public class RecipeViewController implements Initializable {
             Parent recipeView = loader.load();
             Scene currentScene = ((Node) event.getSource()).getScene();
             EditRecipeController controller = loader.getController();
-            controller.setRecipeToEdit(recipeLibrary.getRecipe(recipeP));
+            controller.setRecipeToEdit(recipeLibrary.findRecipe(recipeP));
             currentScene.setRoot(recipeView);
         } catch (IOException e){
             throw new RuntimeException(e);
