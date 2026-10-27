@@ -4,7 +4,6 @@ import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import tools.jackson.databind.ObjectMapper;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
 /**
  * Recipe -object. Recipe contains it's name, category and an ObservableList of ingredients.
  */
-public class Recipe extends RecipeParent implements Collections {
+public class Recipe extends ListBase implements Collections {
     /*------- ATTRIBUTES -------*/
     private Path path = Path.of("ingredient-list.json");
     private final SaveToJson<ListItem> saveFile;
@@ -30,9 +29,9 @@ public class Recipe extends RecipeParent implements Collections {
     private final ObservableList<ListItem> ingredients = FXCollections.observableArrayList(
             ingredient -> new Observable[]{
                     ingredient.nameProperty(),
-                    ingredient.completionProperty(),
-                    ingredient.amountProperty(),
-                    ingredient.unitProperty()
+                    ingredient.getCompletionProperty(),
+                    ingredient.getAmountProperty(),
+                    ingredient.getUnitProperty()
             });
 
     /*------- CONSTRUCTORS -------*/
@@ -85,11 +84,11 @@ public class Recipe extends RecipeParent implements Collections {
     /*------- OTHERS -------*/
     /**
      * Creates and adds new ingredient to Recipe.
-     * @param title ingredient name
+     * @param name ingredient name
      */
     @Override
-    public void createAndAddItem(String title) {
-        String text = title.trim();
+    public void createAndAddItem(String name) {
+        String text = name.trim();
         if(text.isBlank()){
             return;
         }
@@ -120,7 +119,7 @@ public class Recipe extends RecipeParent implements Collections {
 
     @Override
     public String toString(){
-        return getName();
+        return getTitle();
     }
 
 //    /**

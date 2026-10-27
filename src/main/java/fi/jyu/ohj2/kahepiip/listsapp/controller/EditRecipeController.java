@@ -120,9 +120,9 @@ public class EditRecipeController implements Initializable{
         editNameTxt.requestFocus();
         editRecipeTable.setItems(recipe.getItems());
 
-        amountColumn.setCellValueFactory(cd -> cd.getValue().amountProperty().asObject());
+        amountColumn.setCellValueFactory(cd -> cd.getValue().getAmountProperty().asObject());
         amountColumn.setPrefWidth(50);
-        unitColumn.setCellValueFactory(cd -> cd.getValue().unitProperty());
+        unitColumn.setCellValueFactory(cd -> cd.getValue().getUnitProperty());
         unitColumn.setPrefWidth(65);
         nameColumn.setCellValueFactory(cd -> cd.getValue().nameProperty());
         nameColumn.setMinWidth(175);
@@ -187,7 +187,7 @@ public class EditRecipeController implements Initializable{
         // Creates new recipe of contents:
         Recipe placeholder = new Recipe();
         placeholder.setItems(editRecipeTable.getItems());
-        placeholder.setName(recipeName);
+        placeholder.setTitle(recipeName);
         placeholder.setCategory(editCategoryCombo.getValue());
 
         // Remove old recipe and add new:
@@ -208,7 +208,7 @@ public class EditRecipeController implements Initializable{
 
     public void setRecipeToEdit(Recipe recipe){
         this.recipe = recipe;
-        editNameTxt.setText(recipe.getName());
+        editNameTxt.setText(recipe.getTitle());
         editCategoryCombo.setValue(recipe.getCategory());
         editRecipeTable.setItems(recipe.getItems());
     }

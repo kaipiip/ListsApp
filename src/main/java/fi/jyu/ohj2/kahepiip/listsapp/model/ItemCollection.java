@@ -22,7 +22,7 @@ public class ItemCollection implements Collections {
     private final ObservableList<ListItem> items = FXCollections.observableArrayList(
             item -> new Observable[]{
                     item.nameProperty(),
-                    item.completionProperty()
+                    item.getCompletionProperty()
             });
 
     /*------- CONSTRUCTORS -------*/

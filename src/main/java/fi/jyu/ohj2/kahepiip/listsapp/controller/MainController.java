@@ -154,7 +154,7 @@ public class MainController implements Initializable {
         itemTable.setItems(shoppingList.getItems());
         itemTable.setEditable(true);
 
-        completedColumn.setCellValueFactory(cd -> cd.getValue().completionProperty());
+        completedColumn.setCellValueFactory(cd -> cd.getValue().getCompletionProperty());
         completedColumn.setCellFactory(CheckBoxTableCell.forTableColumn(completedColumn));
         completedColumn.setPrefWidth(50);
 
@@ -177,7 +177,7 @@ public class MainController implements Initializable {
                 } else {
                     textProperty().bind(item.nameProperty());
                     styleProperty().bind(
-                            Bindings.when(item.completionProperty())
+                            Bindings.when(item.getCompletionProperty())
                                     .then("-fx-text-fill: rgba(0,0,0,0.3);").otherwise("")
                     );
                 }

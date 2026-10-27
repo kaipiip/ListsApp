@@ -17,10 +17,10 @@ public class RecipeAndItemCollectionTest {
         items.createAndAddItem("egg");
 
         assertEquals(1, recipe.getItems().size());
-        assertEquals("egg", recipe.getItems().getFirst().getName());
+        assertEquals("egg", recipe.getItems().getFirst().getTitle());
 
         assertEquals(1, items.getItems().size());
-        assertEquals("egg", items.getItems().getFirst().getName());
+        assertEquals("egg", items.getItems().getFirst().getTitle());
     }
 
     @Test
@@ -60,10 +60,10 @@ public class RecipeAndItemCollectionTest {
         items.createAndAddItem("  egg  ");
 
         assertEquals(1, recipe.getItems().size());
-        assertEquals("egg", recipe.getItems().getFirst().getName());
+        assertEquals("egg", recipe.getItems().getFirst().getTitle());
 
         assertEquals(1, items.getItems().size());
-        assertEquals("egg", items.getItems().getFirst().getName());
+        assertEquals("egg", items.getItems().getFirst().getTitle());
     }
 
     @Test
@@ -77,12 +77,12 @@ public class RecipeAndItemCollectionTest {
         items.createAndAddItem("egg");
 
         assertEquals(2, recipe.getItems().size());
-        assertEquals("egg", recipe.getItems().getFirst().getName());
-        assertEquals("egg", recipe.getItems().get(1).getName());
+        assertEquals("egg", recipe.getItems().getFirst().getTitle());
+        assertEquals("egg", recipe.getItems().get(1).getTitle());
 
         assertEquals(2, items.getItems().size());
-        assertEquals("egg", items.getItems().getFirst().getName());
-        assertEquals("egg", items.getItems().get(1).getName());
+        assertEquals("egg", items.getItems().getFirst().getTitle());
+        assertEquals("egg", items.getItems().get(1).getTitle());
     }
 
     @Test
@@ -125,7 +125,7 @@ public class RecipeAndItemCollectionTest {
     void addRecipeToLibrary(){
         RecipeLibrary library = new RecipeLibrary("test-library.json");
         Recipe recipe = new Recipe("test-ingredients.json");
-        recipe.setName("Omelet");
+        recipe.setTitle("Omelet");
         ListItem item = new ListItem("egg", true);
         recipe.addItem(item);
         library.addRecipe(recipe);
@@ -137,7 +137,7 @@ public class RecipeAndItemCollectionTest {
     void removeRecipe(){
         RecipeLibrary library = new RecipeLibrary("test-library.json");
         Recipe recipe = new Recipe("test-ingredients.json");
-        recipe.setName("Omelet");
+        recipe.setTitle("Omelet");
         ListItem item = new ListItem("egg", true);
         recipe.addItem(item);
         library.addRecipe(recipe);
@@ -150,7 +150,7 @@ public class RecipeAndItemCollectionTest {
     void addRecipe_notEmpty(){
         RecipeLibrary library = new RecipeLibrary("test-library.json");
         Recipe recipe = new Recipe("test-ingredients.json");
-        recipe.setName("Omelet");
+        recipe.setTitle("Omelet");
         library.addRecipe(recipe);
         assertEquals(0, library.getRecipes().size());
     }

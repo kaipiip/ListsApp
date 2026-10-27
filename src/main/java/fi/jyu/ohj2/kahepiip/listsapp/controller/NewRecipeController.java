@@ -162,9 +162,9 @@ public class NewRecipeController implements Initializable {
         newRecipeTable.setItems(recipe.getItems());
         // shoppingList.load();
 
-        amountColumn.setCellValueFactory(cd -> cd.getValue().amountProperty().asObject());
+        amountColumn.setCellValueFactory(cd -> cd.getValue().getAmountProperty().asObject());
         amountColumn.setPrefWidth(50);
-        unitColumn.setCellValueFactory(cd -> cd.getValue().unitProperty());
+        unitColumn.setCellValueFactory(cd -> cd.getValue().getUnitProperty());
         unitColumn.setPrefWidth(65);
         nameColumn.setCellValueFactory(cd -> cd.getValue().nameProperty());
         nameColumn.setMinWidth(175);
@@ -214,7 +214,7 @@ public class NewRecipeController implements Initializable {
         Recipe newRecipe = new Recipe();
         String recipeName = recipeNameTxt.getText();
 
-        newRecipe.setName(recipeName);
+        newRecipe.setTitle(recipeName);
         newRecipe.setCategory(categoryCombo.getValue());
         newRecipe.setItems(recipe.getItems());
 

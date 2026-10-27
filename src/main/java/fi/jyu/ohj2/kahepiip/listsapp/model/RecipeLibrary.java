@@ -11,7 +11,7 @@ import java.util.List;
  * RecipeLibrary-object. Library contains Recipe-objects
  */
 @SuppressWarnings("unused")
-public class RecipeLibrary extends RecipeParent {
+public class RecipeLibrary extends ListBase {
     /*------- ATTRIBUTES -------*/
     private Path path = Path.of("recipe-library.json");
     private final SaveToJson<Recipe> saveFile;
@@ -21,7 +21,7 @@ public class RecipeLibrary extends RecipeParent {
      */
     private final ObservableList<Recipe> recipes = FXCollections.observableArrayList(
             recipe -> new Observable[]{
-                    recipe.nameProperty(),
+                    recipe.getTitleProperty(),
                     recipe.categoryProperty()
             }
     );
@@ -58,9 +58,9 @@ public class RecipeLibrary extends RecipeParent {
      * @param recipe RecipeParent that's name is used as keyword
      * @return Recipe with same name as parameter's.
      */
-    public Recipe findRecipe(RecipeParent recipe){
+    public Recipe findRecipe(ListBase recipe){
         for(Recipe r : recipes){
-            if(r.getName().equals(recipe.getName())){
+            if(r.getTitle().equals(recipe.getTitle())){
                 return r;
             }
         }
@@ -86,7 +86,7 @@ public class RecipeLibrary extends RecipeParent {
      * @param recipe Recipe-object
      */
     public void addRecipe(Recipe recipe){
-        if(recipe == null || recipe.getItems().isEmpty() || recipe.getName() == null){
+        if(recipe == null || recipe.getItems().isEmpty() || recipe.getTitle() == null){
             return;
         }
         recipes.add(recipe);

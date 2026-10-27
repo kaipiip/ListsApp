@@ -26,19 +26,19 @@ public class RecipeViewController implements Initializable {
 
     @SuppressWarnings("unused")
     @FXML
-    private TreeView<RecipeParent> recipeTree;
+    private TreeView<ListBase> recipeTree;
 
     @SuppressWarnings("unused")
     @FXML
-    private TreeItem<RecipeParent> libraryRoot;
+    private TreeItem<ListBase> libraryRoot;
 
     @SuppressWarnings("unused")
     @FXML
-    private CheckBoxTreeItem<RecipeParent> cbRecipe;
+    private CheckBoxTreeItem<ListBase> cbRecipe;
 
     @SuppressWarnings("unused")
     @FXML
-    private CheckBoxTreeItem<RecipeParent> cbIngredient;
+    private CheckBoxTreeItem<ListBase> cbIngredient;
 
     @SuppressWarnings("unused")
     @FXML
@@ -143,7 +143,7 @@ public class RecipeViewController implements Initializable {
                 // Create's a copy of ingredient, with amount and unit of measure
                 // in item's name for adding to shopping list.
                 ListItem item = new ListItem();
-                item.setName(ingredient.toString());
+                item.setTitle(ingredient.toString());
 
                 cbIngredient = new CheckBoxTreeItem<>(ingredient);
                 cbRecipe.getChildren().add(cbIngredient);
@@ -186,21 +186,21 @@ public class RecipeViewController implements Initializable {
      * Removes chosen recipe from RecipeLibrary and TreeView.
      */
     private void removeChosenRecipe(){
-        TreeItem<RecipeParent> chosenRecipe = recipeTree.getSelectionModel().getSelectedItem();
+        TreeItem<ListBase> chosenRecipe = recipeTree.getSelectionModel().getSelectedItem();
         if(chosenRecipe == null){
             return;
         }
-        RecipeParent recipeP = chosenRecipe.getValue();
+        ListBase recipeP = chosenRecipe.getValue();
         recipeLibrary.removeRecipe(recipeLibrary.findRecipe(recipeP));
         libraryRoot.getChildren().remove(chosenRecipe);
     }
 
     private void editRecipe(ActionEvent event){
-        TreeItem<RecipeParent> chosenRecipe = recipeTree.getSelectionModel().getSelectedItem();
+        TreeItem<ListBase> chosenRecipe = recipeTree.getSelectionModel().getSelectedItem();
         if(chosenRecipe == null){
             return;
         }
-        RecipeParent recipeP = chosenRecipe.getValue();
+        ListBase recipeP = chosenRecipe.getValue();
 
         try{
             FXMLLoader loader = new FXMLLoader(App.class.getResource("editRecipe.fxml"));
@@ -229,7 +229,7 @@ public class RecipeViewController implements Initializable {
         libraryRoot.getChildren()
                 .stream()
                 .filter(tb -> tb.getValue()
-                        .getName()
+                        .getTitle()
                         .toLowerCase()
                         .contains(wanted))
                 .forEach(tb -> {
@@ -241,7 +241,7 @@ public class RecipeViewController implements Initializable {
                 .forEach(tb -> tb.getChildren()
                         .stream()
                         .filter(tl -> tl.getValue()
-                                .getName()
+                                .getTitle()
                                 .toLowerCase()
                                 .contains(wanted))
                         .forEach(tl -> {
