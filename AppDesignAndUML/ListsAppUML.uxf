@@ -20,15 +20,15 @@ bg=#9cb376
 fg=#3e5912
 bg=#9cb376
 -
-/- path: Path/
-/- list: ObservableList&lt;T&gt;/
+- path: Path
+- list: ObservableList&lt;T&gt;/
 - mapper: ObjectMapper
 -
 - save(): Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1000</x><y>200</y><w>192</w><h>72</h></coordinates><panel_attributes>*LoadFromJson*
 fg=#3e5912
 bg=#9cb376
 -
-/- path: Path/
+- path: Path
 - mapper: ObjectMapper
 -
 + loadList(list: ListBase): ObservableList
@@ -122,7 +122,7 @@ fg=#3e5912
 m1=1
 m2=0..*
 m2pos=1,7
-m1pos=0,7</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>472</x><y>56</y><w>760</w><h>816</h></coordinates><panel_attributes>fg=#3e5912
+m1pos=0,7</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>456</x><y>64</y><w>760</w><h>816</h></coordinates><panel_attributes>fg=#3e5912
 layer=-1
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>680</x><y>336</y><w>240</w><h>96</h></coordinates><panel_attributes>*ListLibrary*
 fg=#3e5912
