@@ -5,7 +5,8 @@ course at the University of Jyväskylä. The application is developed using Java
 
 The application is a simple tool designed to make grocery shopping list creation easier.
 Users can create and save grocery lists for specific recipes and quickly add them to a daily shopping list. 
-The program will also support creating and saving custom lists for other personal needs in the future.  
+The program will also support creating and saving custom lists for other personal needs in the future.
+**Current state of app does not work, as the code is being reworked to be less repetitive and mobile compatible. Previous working version is from Spring 2026 as a desktop application.**
 
 ## App features
 
