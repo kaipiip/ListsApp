@@ -12,27 +12,24 @@ import java.util.List;
 /**
  * Recipe -object. Recipe contains it's name, category and an ObservableList of ingredients.
  */
-public class Recipe extends ListBase implements Collections {
+public class Recipe extends ListBase {
     /*------- ATTRIBUTES -------*/
     private Path path = Path.of("ingredient-list.json");
-    private final SaveToJson<ListItem> saveFile;
+    private final SaveToJson<Ingredient> saveFile;
+
+    private ObservableList<Ingredient> ingredients = FXCollections.observableArrayList(
+            item -> new Observable[]{
+                    item.getNameProperty(),
+                    item.getCompletionProperty(),
+                    item.getAmountProperty(),
+                    item.getUnitProperty()
+            }
+    );
 
     /**
      * Recipe-object's category
      */
     private final ObjectProperty<Category> category = new SimpleObjectProperty<>();
-
-    /**
-     * ObservableList for Recipe's ingredients.
-     * Observes ingredients title, completion, amount and unit -properties.
-     */
-    private final ObservableList<ListItem> ingredients = FXCollections.observableArrayList(
-            ingredient -> new Observable[]{
-                    ingredient.nameProperty(),
-                    ingredient.getCompletionProperty(),
-                    ingredient.getAmountProperty(),
-                    ingredient.getUnitProperty()
-            });
 
     /*------- CONSTRUCTORS -------*/
     /**
@@ -40,6 +37,8 @@ public class Recipe extends ListBase implements Collections {
      * Changes are saved.
      */
     public Recipe(){
+        super();
+        items = ingredients;
         saveFile = new SaveToJson<>(path, ingredients);
     }
 

@@ -30,7 +30,6 @@ public class Ingredient extends ListItem{
 
     /*-------- OTHERS --------*/
     public ListItem convertToListItem(){
-        ListItem item = new ListItem(this.getName());
-        return item;
+        return new ListItem(getAmount() + " " + getUnit().toString().toLowerCase() + " " + getName());
     }
 }

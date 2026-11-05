@@ -8,7 +8,7 @@ import java.nio.file.Path;
 
 /**
  * Writes lists to json-files, and saves changes.
- * @param <T> ListItem or Recipe
+ * @param <T> ListItem, Ingredient or Recipe
  */
 public class SaveToJson<T> {
     /*------- ATTRIBUTES -------*/

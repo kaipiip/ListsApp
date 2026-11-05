@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class ListBase {
     /*------- ATTRIBUTES -------*/
-    private StringProperty title = new SimpleStringProperty();
-    private Path path = Path.of("list-base.json");
-    private ObservableList<ListItem> items = FXCollections.observableArrayList(
+    protected final StringProperty title = new SimpleStringProperty();
+    protected final Path path = Path.of("list-base.json");
+    protected ObservableList<ListItem> items = FXCollections.observableArrayList(
             item -> new Observable[]{
                     item.getNameProperty(),
                     item.getCompletionProperty()
@@ -27,6 +27,9 @@ public class ListBase {
 
     /*----- CONSTRUCTORS ----*/
 
+    /**
+     * List-object for ListItems, listens and saves changes in contents.
+     */
     public ListBase(){
         saveFile = new SaveToJson<>(path, items);
     }
@@ -47,6 +50,9 @@ public class ListBase {
         this.setTitle(title);
     }
 
+    /**
+     * @param items List of ListItems.
+     */
     public void setItems(List<ListItem> items){
         this.items.setAll(items);
     }
@@ -54,13 +60,10 @@ public class ListBase {
     /*------- GETTERS -------*/
     public String getTitle(){return this.title.get();}
     public StringProperty getTitleProperty(){return this.title;}
-
     public ObservableList<ListItem> getItems(){return items;}
-
     public Path getPath(){return path;}
 
     /*------- OTHERS -------*/
-
     /**
      * Creates and adds item to this List.
      * @param name item name
@@ -75,13 +78,13 @@ public class ListBase {
 
     /**
      * Adds existing ListItem to this List.
-     * @param item item to be added to collection.
+     * @param item ListItem.
      */
     public void addItem(ListItem item) {items.add(item);}
 
     /**
      * Removes specified ListItem from this List
-     * @param item item to be removed from collection
+     * @param item ListItem to be removed
      */
     public void removeItem(ListItem item) {
         if (item == null){
