@@ -1,7 +1,8 @@
 # ListsApp
 
+See branch [dev](https://github.com/kaipiip/ListsApp/tree/dev) for further development of this application.
 This project is an exercise assignment for the Programming 2 (Object-Oriented Programming)
-course at the University of Jyväskylä. The application is developed using Java, JavaFX, and SceneBuilder.
+course at the University of Jyväskylä in spring 2026. The application is developed using Java, JavaFX, and SceneBuilder for PC.
 
 The application is a simple tool designed to make grocery shopping list creation easier.
 Users can create and save grocery lists for specific recipes and quickly add them to a daily shopping list. 
