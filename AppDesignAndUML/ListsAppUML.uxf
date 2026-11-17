@@ -21,7 +21,7 @@ fg=#3e5912
 bg=#9cb376
 -
 - path: Path
-- list: ObservableList&lt;T&gt;/
+- list: ObservableList&lt;T&gt;
 - mapper: ObjectMapper
 -
 - save(): Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1000</x><y>200</y><w>192</w><h>72</h></coordinates><panel_attributes>*LoadFromJson*
